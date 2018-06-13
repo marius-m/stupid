@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
 object GameSpek: Spek({
-    given("a calculator") {
+    given("game initializes") {
         val game = Game()
 
         on("addition") {
