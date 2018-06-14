@@ -36,5 +36,4 @@ class TurnsManager(
         return players.get(nextPlayerIndex)
     }
 
-
 }

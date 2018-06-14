@@ -7,19 +7,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends ApplicationAdapter {
-	private final Game game;
+//	private final Game game;
 
 	private SpriteBatch batch;
 
 	public Main() {
-	    this.game = new Game();
+//	    this.game = new Game();
 	}
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 //		img = new Texture("badlogic.jpg");
-		game.run();
+//		game.run();
 	}
 
 	@Override
