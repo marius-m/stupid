@@ -1,7 +1,5 @@
 package lt.markmerkk.durak
 
-import java.util.*
-
 /**
  * Responsible for defining who's turn is it
  * todo: Terrible naming, change later when came up with

@@ -1,7 +1,6 @@
 package lt.markmerkk.durak
 
 import lt.markmerkk.Mocks
-import org.junit.Before
 import org.mockito.MockitoAnnotations
 
 abstract class AbsTurnsManagerTest {
@@ -14,7 +13,7 @@ abstract class AbsTurnsManagerTest {
     lateinit var turnsManager3Player: TurnsManager
     lateinit var turnsManager4Player: TurnsManager
 
-    @Before
+    @org.junit.Before
     open fun setUp() {
         MockitoAnnotations.initMocks(this)
         turnsManager2Player = TurnsManager(

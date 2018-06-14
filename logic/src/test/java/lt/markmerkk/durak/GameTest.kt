@@ -5,7 +5,7 @@ import org.junit.Test
 
 class GameTest {
 
-    @Test
+    @org.junit.Test
     fun name() {
         assertThat(false).isFalse()
     }

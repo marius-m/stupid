@@ -5,7 +5,7 @@ import org.junit.Test
 
 class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
 
-    @Test
+    @org.junit.Test
     fun players2_next() {
         // Assert
         assertThat(turnsManager2Player.attackingPlayer).isEqualTo(player1)
@@ -19,7 +19,7 @@ class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
         assertThat(turnsManager2Player.defendingPlayer).isEqualTo(player1)
     }
 
-    @Test
+    @org.junit.Test
     fun players3_next() {
         // Assert
         assertThat(turnsManager3Player.attackingPlayer).isEqualTo(player1)
@@ -40,7 +40,7 @@ class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
         assertThat(turnsManager3Player.defendingPlayer).isEqualTo(player1)
     }
 
-    @Test
+    @org.junit.Test
     fun players4_next() {
         // Assert
         assertThat(turnsManager4Player.attackingPlayer).isEqualTo(player1)

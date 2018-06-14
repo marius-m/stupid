@@ -41,9 +41,9 @@ allprojects {
 project(":desktop") {
     apply plugin: "kotlin"
 
-
     dependencies {
         compile project(":core")
+        compile project(":logic")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
@@ -55,9 +55,7 @@ project(":cli") {
     apply plugin: 'org.junit.platform.gradle.plugin'
 
     dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile project(":logic")
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
         testCompile("junit:junit:4.12")
@@ -71,9 +69,9 @@ project(":ios") {
     apply plugin: "kotlin"
     apply plugin: "robovm"
 
-
     dependencies {
         compile project(":core")
+        compile project(":logic")
         compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
         compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
@@ -87,7 +85,32 @@ project(":core") {
     apply plugin: 'org.junit.platform.gradle.plugin'
 
     dependencies {
+        compile project(":logic")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+        testCompile group: 'com.nhaarman', name: 'mockito-kotlin', version:'1.5.0'
+        testCompile group: 'org.mockito', name: 'mockito-core', version:'2.8.9'
+        testCompile("junit:junit:4.12")
+        testCompile 'org.jetbrains.spek:spek-api:1.1.5'
+        testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+        testCompile("org.assertj:assertj-core:3.10.0")
+    }
+
+    junitPlatform {
+        filters {
+            engines {
+                include 'spek'
+            }
+        }
+    }
+}
+
+project(":logic") {
+    apply plugin: "kotlin"
+    apply plugin: 'org.junit.platform.gradle.plugin'
+
+    dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
         testCompile group: 'com.nhaarman', name: 'mockito-kotlin', version:'1.5.0'
