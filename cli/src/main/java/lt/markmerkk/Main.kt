@@ -2,7 +2,7 @@ package lt.markmerkk
 
 import lt.markmerkk.actions.ActionExecutorGame
 import lt.markmerkk.actions.ActionExecutorSystem
-import lt.markmerkk.actions.game.ActionGame
+import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.actions.ActionTranslator
 import lt.markmerkk.actions.system.ActionSystem
 import lt.markmerkk.durak.Game

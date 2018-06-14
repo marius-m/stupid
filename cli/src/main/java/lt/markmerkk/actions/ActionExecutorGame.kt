@@ -1,6 +1,6 @@
 package lt.markmerkk.actions
 
-import lt.markmerkk.actions.game.ActionGame
+import lt.markmerkk.durak.actions.ActionGame
 
 class ActionExecutorGame {
     fun execute(action: ActionGame) {

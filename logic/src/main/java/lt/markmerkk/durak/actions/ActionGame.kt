@@ -1,6 +1,6 @@
-package lt.markmerkk.actions.game
+package lt.markmerkk.durak.actions
 
-import lt.markmerkk.actions.Action
+import lt.markmerkk.durak.actions.Action
 
 /**
  * Defines an action to be executed by the game interface

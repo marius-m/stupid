@@ -1,4 +1,4 @@
-package lt.markmerkk.actions
+package lt.markmerkk.durak.actions
 
 interface Action {
     fun execute()
