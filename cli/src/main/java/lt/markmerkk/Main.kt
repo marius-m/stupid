@@ -5,6 +5,7 @@ import lt.markmerkk.actions.ActionExecutorSystem
 import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.actions.ActionTranslator
 import lt.markmerkk.actions.system.ActionSystem
+import lt.markmerkk.durak.Card
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.TurnsManager
@@ -17,7 +18,7 @@ fun main(args: Array<String>) {
             Player("Enrika")
     )
     val turnsManager = TurnsManager(players)
-    val game = Game(players, turnsManager)
+    val game = Game(Card.generateDeck(), players, turnsManager)
 
     // Cli control components
     val inputReader = Scanner(System.`in`)

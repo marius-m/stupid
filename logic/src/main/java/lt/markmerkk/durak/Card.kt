@@ -4,6 +4,11 @@ data class Card(
         val suite: CardSuite,
         val rank: CardRank
 ) {
+
+    override fun toString(): String {
+        return "Card(${suite.out}${rank.out})"
+    }
+
     companion object {
         fun generateDeck(): List<Card> {
             val cards = mutableListOf<Card>()
@@ -17,25 +22,31 @@ data class Card(
     }
 }
 
-enum class CardSuite {
-    SPADE,
-    HEART,
-    DIAMOND,
-    CLUB
+enum class CardSuite(
+        val out: String
+) {
+    SPADE("S"),
+    HEART("H"),
+    DIAMOND("D"),
+    CLUB("C"),
+    ;
 }
 
-enum class CardRank {
-    ACE,
-    KING,
-    QUEEN,
-    JACK,
-    TEN,
-    NINE,
-    EIGHT,
-    SEVEN,
-    SIX,
-    FIVE,
-    FOUR,
-    THREE,
-    TWO
+enum class CardRank(
+        val out: String
+) {
+    ACE("A"),
+    KING("K"),
+    QUEEN("Q"),
+    JACK("J"),
+    TEN("10"),
+    NINE("9"),
+    EIGHT("8"),
+    SEVEN("7"),
+    SIX("6"),
+    FIVE("5"),
+    FOUR("4"),
+    THREE("3"),
+    TWO("2"),
+    ;
 }
