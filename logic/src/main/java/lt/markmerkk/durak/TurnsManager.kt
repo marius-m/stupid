@@ -34,4 +34,15 @@ class TurnsManager(
         return players[nextPlayerIndex]
     }
 
+    //region Public convenience
+
+    fun isAttacking(player: Player) = attackingPlayer == player
+
+    fun isDefending(player: Player) = defendingPlayer == player
+
+    fun isSidelining(player: Player) = attackingPlayer != player && defendingPlayer != player
+
+    //endregion
+
 }
+

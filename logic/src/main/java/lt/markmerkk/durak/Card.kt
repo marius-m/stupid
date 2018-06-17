@@ -22,6 +22,8 @@ data class Card(
     }
 }
 
+fun List<Card>.filterSameRank(rank: CardRank): List<Card> = filter { it.rank == rank }
+
 enum class CardSuite(
         val out: String
 ) {

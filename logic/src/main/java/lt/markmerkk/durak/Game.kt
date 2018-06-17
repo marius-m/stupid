@@ -24,7 +24,7 @@ class Game(
         println("Players: $players")
         println("Refilling deck : $refillingDeck")
         println("Playing table : $playingTable")
-        println("Game status: ${turnsManager.attackingPlayer.name} turn")
+        println("Game status: ${turnsManager.attackingPlayer.name} turn to attack")
     }
 
     fun inputTurn(action: ActionGame) {
