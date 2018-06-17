@@ -31,7 +31,7 @@ class TurnsManager(
     private fun nextOf(player: Player): Player {
         val currentPlayerIndex = players.indexOf(player)
         val nextPlayerIndex = if (currentPlayerIndex + 1 < players.size) currentPlayerIndex + 1 else 0
-        return players.get(nextPlayerIndex)
+        return players[nextPlayerIndex]
     }
 
 }

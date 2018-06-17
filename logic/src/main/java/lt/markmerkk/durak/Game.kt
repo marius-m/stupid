@@ -13,10 +13,9 @@ class Game(
 
     init {
         players.forEach { it.cardsInHand = emptyList() }
-        val shuffledCards = cards.toMutableList()
-        Collections.shuffle(shuffledCards)
-        refillingDeck = RefillingDeck(cards = ArrayDeque<Card>(shuffledCards))
+        refillingDeck = RefillingDeck(cards = ArrayDeque<Card>(cards.toMutableList().shuffled()))
         playingTable = PlayingTable(cards = emptyList())
+        players.forEach { it.refill(refillingDeck) }
     }
 
     var isGameOver = false
