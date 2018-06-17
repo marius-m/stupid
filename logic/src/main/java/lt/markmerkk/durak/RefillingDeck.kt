@@ -7,4 +7,5 @@ import java.util.*
  */
 data class RefillingDeck(
         var cards: Queue<Card>
-)
+) {
+}

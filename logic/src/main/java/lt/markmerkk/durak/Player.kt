@@ -6,4 +6,8 @@ package lt.markmerkk.durak
 data class Player(
         val name: String,
         var cardsInHand: List<Card> = emptyList()
-)
+) {
+    fun refill(refillingDeck: RefillingDeck) {
+
+    }
+}
