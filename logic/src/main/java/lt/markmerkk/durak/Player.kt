@@ -8,6 +8,13 @@ data class Player(
         var cardsInHand: List<Card> = emptyList()
 ) {
     fun refill(refillingDeck: RefillingDeck) {
-
+        val refilledCards = cardsInHand.toMutableList()
+        val cardsToRefill = Consts.MAX_REFILL_HAND - cardsInHand.size
+        (1..cardsToRefill).forEach {
+            if (refillingDeck.cards.isNotEmpty()) {
+                refilledCards.add(refillingDeck.cards.poll())
+            }
+        }
+        cardsInHand = refilledCards.toList()
     }
 }
