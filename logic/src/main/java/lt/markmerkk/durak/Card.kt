@@ -2,8 +2,21 @@ package lt.markmerkk.durak
 
 data class Card(
         val suite: CardSuite,
-        val rank: CardRank
-) {
+        val rank: CardRank,
+        val isTrump: Boolean = false
+): Comparable<Card> {
+
+    override fun compareTo(other: Card): Int {
+        if (weight() > other.weight()) {
+            return 1
+        }
+        if (weight() == other.weight()) {
+            return 0
+        }
+        return -1
+    }
+
+    fun weight(): Int = if (isTrump) rank.weight * 2 else rank.weight
 
     override fun toString(): String {
         return "Card(${suite.out}${rank.out})"
@@ -35,20 +48,21 @@ enum class CardSuite(
 }
 
 enum class CardRank(
-        val out: String
+        val out: String,
+        val weight: Int
 ) {
-    ACE("A"),
-    KING("K"),
-    QUEEN("Q"),
-    JACK("J"),
-    TEN("10"),
-    NINE("9"),
-    EIGHT("8"),
-    SEVEN("7"),
-    SIX("6"),
-    FIVE("5"),
-    FOUR("4"),
-    THREE("3"),
-    TWO("2"),
+    ACE("A", 14),
+    KING("K", 13),
+    QUEEN("Q", 12),
+    JACK("J", 11),
+    TEN("10", 10),
+    NINE("9", 9),
+    EIGHT("8", 8),
+    SEVEN("7", 7),
+    SIX("6", 6),
+    FIVE("5", 5),
+    FOUR("4", 4),
+    THREE("3", 3),
+    TWO("2", 2),
     ;
 }
