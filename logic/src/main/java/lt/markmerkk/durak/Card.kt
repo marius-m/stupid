@@ -16,7 +16,7 @@ data class Card(
         return -1
     }
 
-    fun weight(): Int = if (isTrump) rank.weight * 2 else rank.weight
+    fun weight(): Int = if (isTrump) rank.weight + 100 else rank.weight
 
     override fun toString(): String {
         return "Card(${suite.out}${rank.out})"
