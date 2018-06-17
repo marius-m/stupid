@@ -3,7 +3,7 @@ package lt.markmerkk.durak
 /**
  * Defines playing table, where attacking player tries to get rid of his cards
  */
-data class PlayingTable(
+class PlayingTable(
         var cards: List<PlayingCardPair>
 ) {
     /**
@@ -17,6 +17,13 @@ data class PlayingTable(
                 .toSet()
         return attackingCardRanks.plus(defendingCardRanks)
     }
+
+    /**
+     * Filters out all undefended cards on the table
+     */
+    fun undefendedCardsOnTable(): List<Card> = cards
+            .filter { it.defendingCard == null }
+            .map { it.attackingCard }
 }
 
 data class PlayingCardPair(

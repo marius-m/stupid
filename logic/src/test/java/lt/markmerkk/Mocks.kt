@@ -4,6 +4,10 @@ import lt.markmerkk.durak.*
 
 object Mocks {
 
+    fun createCards(vararg cards: Card): List<Card> {
+        return cards.toList()
+    }
+
     fun createPlayer(
             name: String = "valid_player",
             cardsInHand: List<Card> = emptyList()
