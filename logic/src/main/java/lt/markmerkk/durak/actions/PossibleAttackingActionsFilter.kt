@@ -14,7 +14,35 @@ class PossibleAttackingActionsFilter {
             attackingPlayerCardsInHand: List<Card>,
             playingTable: PlayingTable,
             defensivePlayerCardSizeInHand: Int
-    ): List<ActionThrowInCard> {
+    ): List<ActionGame> {
+        val resultCards: MutableList<ActionGame> = mutableListOf()
+        val throwInCardsActions = handleThrowInCardsActions(
+                attackingPlayerCardsInHand,
+                playingTable,
+                defensivePlayerCardSizeInHand
+        )
+        resultCards.addAll(throwInCardsActions)
+        resultCards.addAll(handleFinishRoundActions(playingTable))
+        return resultCards.toList()
+    }
+
+    private fun handleFinishRoundActions(
+            playingTable: PlayingTable
+    ): List<ActionGame> {
+        if (playingTable.cards.isEmpty()) {
+            return emptyList()
+        }
+        if (playingTable.undefendedCardsOnTable().isEmpty()) {
+            return listOf(ActionFinishRound())
+        }
+        return emptyList()
+    }
+
+    private fun handleThrowInCardsActions(
+            attackingPlayerCardsInHand: List<Card>,
+            playingTable: PlayingTable,
+            defensivePlayerCardSizeInHand: Int
+    ): List<ActionGame> {
         if (playingTable.cards.isEmpty()) {
             return attackingPlayerCardsInHand.map { ActionThrowInCard(it) }
         }
@@ -30,4 +58,5 @@ class PossibleAttackingActionsFilter {
                 .flatMap { attackingPlayerCardsInHand.filterSameRank(it) }
                 .map { ActionThrowInCard(it) }
     }
+
 }

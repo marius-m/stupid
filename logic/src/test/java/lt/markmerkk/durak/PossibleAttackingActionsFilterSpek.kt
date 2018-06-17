@@ -1,10 +1,12 @@
 package lt.markmerkk.durak
 
 import lt.markmerkk.Mocks
+import lt.markmerkk.durak.actions.ActionFinishRound
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import lt.markmerkk.durak.actions.PossibleAttackingActionsFilter
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
+import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
@@ -175,7 +177,7 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             // Assert
             it("should be able to throw in same rank card") {
-                assertThat(resultActions).containsExactlyInAnyOrder(
+                assertThat(resultActions).contains(
                         ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.JACK)),
                         ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.KING))
                 )
@@ -234,7 +236,7 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             // Assert
             it("no more cards can be thrown in") {
-                assertThat(resultActions).isEmpty()
+                assertThat(resultActions).doesNotHaveAnyElementsOfTypes(ActionThrowInCard::class.java)
             }
         }
 
@@ -416,6 +418,103 @@ object PossibleAttackingActionsFilterSpek : Spek({
                         ActionThrowInCard(Card(CardSuite.HEART, CardRank.JACK)),
                         ActionThrowInCard(Card(CardSuite.HEART, CardRank.KING))
                 )
+            }
+        }
+    }
+
+    given("figure when to show action finish round") {
+        on("no cards on the table") {
+            // Assemble
+            val attackingPlayerCardsInHand = Mocks.createCards(
+                    Card(CardSuite.HEART, CardRank.ACE),
+                    Card(CardSuite.HEART, CardRank.KING),
+                    Card(CardSuite.HEART, CardRank.QUEEN),
+                    Card(CardSuite.HEART, CardRank.JACK),
+                    Card(CardSuite.HEART, CardRank.TEN),
+                    Card(CardSuite.HEART, CardRank.EIGHT)
+            )
+            // Fictional defended pairs on the table
+            playingTable = Mocks.createPlayingTable(emptyList())
+            possibleAttackingActionsFilter = PossibleAttackingActionsFilter()
+
+            // Act
+            val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayerCardsInHand = attackingPlayerCardsInHand,
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = 6
+            )
+
+            // Assert
+            it("cannot finish round") {
+                assertThat(resultActions).doesNotContain(ActionFinishRound())
+            }
+        }
+
+        on("not finished action") {
+            // Assemble
+            val attackingPlayerCardsInHand = Mocks.createCards(
+                    Card(CardSuite.HEART, CardRank.ACE),
+                    Card(CardSuite.HEART, CardRank.KING),
+                    Card(CardSuite.HEART, CardRank.QUEEN),
+                    Card(CardSuite.HEART, CardRank.JACK),
+                    Card(CardSuite.HEART, CardRank.TEN),
+                    Card(CardSuite.HEART, CardRank.EIGHT)
+            )
+            // Fictional defended pairs on the table
+            playingTable = Mocks.createPlayingTable(
+                    listOf(
+                            PlayingCardPair(
+                                    attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                    defendingCard = null
+                            )
+                    )
+            )
+            possibleAttackingActionsFilter = PossibleAttackingActionsFilter()
+
+            // Act
+            val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayerCardsInHand = attackingPlayerCardsInHand,
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = 6
+            )
+
+            // Assert
+            it("cannot finish round") {
+                assertThat(resultActions).doesNotContain(ActionFinishRound())
+            }
+        }
+
+        on("finished defending") {
+            // Assemble
+            val attackingPlayerCardsInHand = Mocks.createCards(
+                    Card(CardSuite.HEART, CardRank.ACE),
+                    Card(CardSuite.HEART, CardRank.KING),
+                    Card(CardSuite.HEART, CardRank.QUEEN),
+                    Card(CardSuite.HEART, CardRank.JACK),
+                    Card(CardSuite.HEART, CardRank.TEN),
+                    Card(CardSuite.HEART, CardRank.EIGHT)
+            )
+            // Fictional defended pairs on the table
+            playingTable = Mocks.createPlayingTable(
+                    listOf(
+                            PlayingCardPair(
+                                    attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                    defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                            )
+                    )
+            )
+            possibleAttackingActionsFilter = PossibleAttackingActionsFilter()
+
+            // Act
+            val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayerCardsInHand = attackingPlayerCardsInHand,
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = 6
+            )
+
+            // Assert
+            it("should be able to finish round") {
+                assertThat(resultActions).contains(ActionFinishRound())
             }
         }
     }
