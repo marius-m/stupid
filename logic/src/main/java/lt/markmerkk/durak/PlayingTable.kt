@@ -24,6 +24,12 @@ class PlayingTable(
     fun undefendedCardsOnTable(): List<Card> = cards
             .filter { it.defendingCard == null }
             .map { it.attackingCard }
+
+    fun firstUndefendedCardOnTable(): Card? {
+        return cards
+                .find { it.defendingCard == null }
+                ?.attackingCard
+    }
 }
 
 data class PlayingCardPair(

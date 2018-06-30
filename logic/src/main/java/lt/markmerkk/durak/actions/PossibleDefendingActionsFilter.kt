@@ -18,8 +18,15 @@ class PossibleDefendingActionsFilter {
         if (playingTable.cards.isEmpty()) {
             return emptyList()
         }
-        return defendingPlayerCardsInHand
-                .map { ActionThrowInCard(it) }
+        val firstUndefendedCardOnTable = playingTable.firstUndefendedCardOnTable()
+        return if (firstUndefendedCardOnTable != null) {
+            filterDefendableCardsAgainst(
+                    firstUndefendedCardOnTable,
+                    defendingPlayerCardsInHand
+            ).map { ActionThrowInCard(it) }
+        } else {
+            emptyList()
+        }
     }
 
     /**

@@ -60,7 +60,7 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
             }
         }
 
-        on("only multiple actions higher") {
+        on("multiple actions higher") {
             val resultActions = possibleDefendingActionsFilter.filterActions(
                     defendingPlayerCardsInHand = Mocks.createCards(
                             Card(CardSuite.SPADE, CardRank.ACE),
@@ -81,6 +81,63 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
                 assertThat(resultActions).containsExactlyInAnyOrder(
                         ActionThrowInCard(Card(CardSuite.SPADE, CardRank.ACE)),
                         ActionThrowInCard(Card(CardSuite.SPADE, CardRank.KING))
+                )
+            }
+        }
+
+        on("multiple cards and trump card is higher") {
+            val resultActions = possibleDefendingActionsFilter.filterActions(
+                    defendingPlayerCardsInHand = Mocks.createCards(
+                            Card(CardSuite.SPADE, CardRank.ACE),
+                            Card(CardSuite.SPADE, CardRank.KING),
+                            Card(CardSuite.SPADE, CardRank.JACK),
+                            Card(CardSuite.DIAMOND, CardRank.TWO, isTrump = true)
+                    ),
+                    playingTable = Mocks.createPlayingTable(
+                            cardsOnTable = listOf(
+                                    PlayingCardPair(
+                                            attackingCard = Card(CardSuite.SPADE, CardRank.QUEEN),
+                                            defendingCard = null
+                                    )
+                            )
+                    )
+            )
+
+            it("multiple variations to defend") {
+                assertThat(resultActions).containsExactlyInAnyOrder(
+                        ActionThrowInCard(Card(CardSuite.SPADE, CardRank.ACE)),
+                        ActionThrowInCard(Card(CardSuite.SPADE, CardRank.KING)),
+                        ActionThrowInCard(Card(CardSuite.DIAMOND, CardRank.TWO, isTrump = true))
+                )
+            }
+        }
+        on("multiple cards and trump card is higher, on multiple undefended cards") {
+            val resultActions = possibleDefendingActionsFilter.filterActions(
+                    defendingPlayerCardsInHand = Mocks.createCards(
+                            Card(CardSuite.SPADE, CardRank.ACE),
+                            Card(CardSuite.SPADE, CardRank.KING),
+                            Card(CardSuite.SPADE, CardRank.JACK),
+                            Card(CardSuite.DIAMOND, CardRank.TWO, isTrump = true)
+                    ),
+                    playingTable = Mocks.createPlayingTable(
+                            cardsOnTable = listOf(
+                                    PlayingCardPair(
+                                            attackingCard = Card(CardSuite.SPADE, CardRank.QUEEN),
+                                            defendingCard = null
+                                    ),
+                                    PlayingCardPair(
+                                            attackingCard = Card(CardSuite.SPADE, CardRank.NINE),
+                                            defendingCard = null
+                                    )
+                            )
+                    )
+            )
+
+            it("only first first undefended card can be thrown") {
+                assertThat(resultActions).containsExactlyInAnyOrder(
+                        ActionThrowInCard(Card(CardSuite.SPADE, CardRank.ACE)),
+                        ActionThrowInCard(Card(CardSuite.SPADE, CardRank.KING)),
+                        ActionThrowInCard(Card(CardSuite.DIAMOND, CardRank.TWO, isTrump = true))
                 )
             }
         }
