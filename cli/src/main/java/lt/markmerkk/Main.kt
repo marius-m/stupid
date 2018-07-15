@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
     // Cli control components
     val inputReader = Scanner(System.`in`)
     val actionExecutorSystem = ActionExecutorSystem()
-    val actionExecutorGame = ActionExecutorGame()
+    val actionExecutorGame = ActionExecutorGame(players, game)
     val cliInputHandler = CliInputHandler(
             actionTranslators = listOf(
                     ActionTranslatorQuit(players),

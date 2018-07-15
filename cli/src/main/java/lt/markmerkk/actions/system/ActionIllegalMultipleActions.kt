@@ -1,6 +1,5 @@
 package lt.markmerkk.actions.system
 
-import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.actions.Action
 
 /**
@@ -9,10 +8,6 @@ import lt.markmerkk.durak.actions.Action
  */
 data class ActionIllegalMultipleActions(
         private val inputString: String = "",
+        private val detailDescription: String = "",
         private val translatedActions: List<Action> = emptyList()
-) : ActionSystem {
-    override val actionIssuer: Player? = null
-    override fun execute() {
-        println("[WARN] Illegal action! Multiple translations received! Input $inputString was translated into $translatedActions")
-    }
-}
+) : ActionSystem

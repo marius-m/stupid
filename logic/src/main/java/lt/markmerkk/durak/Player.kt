@@ -17,4 +17,9 @@ data class Player(
         }
         cardsInHand = refilledCards.toList()
     }
+
+    override fun toString(): String {
+        return "Player(name=$name)"
+    }
+
 }

@@ -13,7 +13,7 @@ class CliInputHandler(
         val possibleActions = actionTranslators.map { it.translateAction(inputAsString) }
                 .filter { it !is ActionIllegalCannotTranslate }
         if (possibleActions.size > 1) {
-            return ActionIllegalMultipleActions(inputAsString, possibleActions)
+            return ActionIllegalMultipleActions(inputString = inputAsString, translatedActions = possibleActions)
         }
         if (possibleActions.isEmpty()) {
             return ActionIllegalCannotTranslate(inputAsString)
