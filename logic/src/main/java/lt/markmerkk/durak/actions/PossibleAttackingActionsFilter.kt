@@ -21,18 +21,19 @@ class PossibleAttackingActionsFilter {
                 defensivePlayerCardSizeInHand
         )
         resultCards.addAll(throwInCardsActions)
-        resultCards.addAll(handleFinishRoundActions(playingTable))
+        resultCards.addAll(handleFinishRoundActions(attackingPlayer, playingTable))
         return resultCards.toList()
     }
 
     private fun handleFinishRoundActions(
+            attackingPlayer: Player,
             playingTable: PlayingTable
     ): List<ActionGame> {
         if (playingTable.cards.isEmpty()) {
             return emptyList()
         }
         if (playingTable.undefendedCardsOnTable().isEmpty()) {
-            return listOf(ActionFinishRound())
+            return listOf(ActionFinishRound(actionIssuer = attackingPlayer))
         }
         return emptyList()
     }

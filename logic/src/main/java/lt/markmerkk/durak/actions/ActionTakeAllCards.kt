@@ -1,10 +1,14 @@
 package lt.markmerkk.durak.actions
 
+import lt.markmerkk.durak.Player
+
 /**
  * Action to take all cards in, as the defence was not able to complete
  */
-class ActionTakeAllCards: ActionGame {
-    override fun execute() { }
-    override fun equals(other: Any?): Boolean = other != null && other is ActionTakeAllCards
-    override fun hashCode(): Int = javaClass.hashCode()
+data class ActionTakeAllCards(
+        override val actionIssuer: Player?
+) : ActionGame {
+    override fun execute() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

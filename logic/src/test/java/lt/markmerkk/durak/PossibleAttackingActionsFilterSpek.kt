@@ -377,7 +377,7 @@ object PossibleAttackingActionsFilterSpek : Spek({
             )
 
             it("cannot finish round") {
-                assertThat(resultActions).doesNotContain(ActionFinishRound())
+                assertThat(resultActions).doesNotContain(ActionFinishRound(actionIssuer = attackingPlayer))
             }
         }
 
@@ -404,7 +404,7 @@ object PossibleAttackingActionsFilterSpek : Spek({
             )
 
             it("cannot finish round") {
-                assertThat(resultActions).doesNotContain(ActionFinishRound())
+                assertThat(resultActions).doesNotContain(ActionFinishRound(actionIssuer = attackingPlayer))
             }
         }
 
@@ -431,7 +431,7 @@ object PossibleAttackingActionsFilterSpek : Spek({
             )
 
             it("should be able to finish round") {
-                assertThat(resultActions).contains(ActionFinishRound())
+                assertThat(resultActions).contains(ActionFinishRound(actionIssuer = attackingPlayer))
             }
         }
     }
