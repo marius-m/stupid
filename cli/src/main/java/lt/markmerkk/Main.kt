@@ -1,10 +1,7 @@
 package lt.markmerkk
 
-import lt.markmerkk.actions.ActionExecutorGame
-import lt.markmerkk.actions.ActionExecutorSystem
+import lt.markmerkk.actions.*
 import lt.markmerkk.durak.actions.ActionGame
-import lt.markmerkk.actions.ActionTranslatorQuit
-import lt.markmerkk.actions.CliInputHandler
 import lt.markmerkk.actions.system.ActionSystem
 import lt.markmerkk.durak.Card
 import lt.markmerkk.durak.Game
@@ -27,7 +24,8 @@ fun main(args: Array<String>) {
     val actionExecutorGame = ActionExecutorGame()
     val cliInputHandler = CliInputHandler(
             actionTranslators = listOf(
-                    ActionTranslatorQuit(players)
+                    ActionTranslatorQuit(players),
+                    ActionTranslatorCards(players)
             )
     )
 

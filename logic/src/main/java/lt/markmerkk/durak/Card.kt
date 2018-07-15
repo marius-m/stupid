@@ -16,6 +16,8 @@ data class Card(
         return -1
     }
 
+    fun valueAsString(): String = "${suite.out}${rank.out}"
+
     fun weight(): Int = if (isTrump) rank.weight + 100 else rank.weight
 
     override fun toString(): String {
@@ -23,6 +25,15 @@ data class Card(
     }
 
     companion object {
+        val regexPattern = "[SHDC]([AKQJ]|[0-9]){1,2}"
+        val cardStringMap: Map<String, Card> = CardSuite.values().toList()
+                .combine(CardRank.values().toList())
+                .fold(mutableMapOf()) { mutableMap, suiteRankPair ->
+                    val card = Card(suiteRankPair.first, suiteRankPair.second)
+                    mutableMap.put(card.valueAsString(), card)
+                    mutableMap
+                }
+
         fun generateDeck(): List<Card> {
             val cards = mutableListOf<Card>()
             for (suite in CardSuite.values()) {
@@ -31,6 +42,12 @@ data class Card(
                 }
             }
             return cards
+        }
+
+        fun fromString(cardAsString: String): Card? {
+            if (cardStringMap.containsKey(cardAsString))
+                return cardStringMap[cardAsString]
+            return null
         }
     }
 }

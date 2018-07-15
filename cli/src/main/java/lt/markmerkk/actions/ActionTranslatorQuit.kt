@@ -6,6 +6,9 @@ import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.actions.Action
 import java.util.regex.Pattern
 
+/**
+ * Responsible for parsing player actions when trying to quit game
+ */
 class ActionTranslatorQuit(
         private val players: List<Player> = emptyList()
 ): ActionTranslator {
