@@ -33,7 +33,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(6)
+                assertThat(player.cardsInHand().size).isEqualTo(6)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(1)
@@ -51,7 +51,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(6)
+                assertThat(player.cardsInHand().size).isEqualTo(6)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(4)
@@ -72,7 +72,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(6)
+                assertThat(player.cardsInHand().size).isEqualTo(6)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(7)
@@ -97,7 +97,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(10)
+                assertThat(player.cardsInHand().size).isEqualTo(10)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(7)
@@ -126,7 +126,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(3)
+                assertThat(player.cardsInHand().size).isEqualTo(3)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(0)
@@ -144,7 +144,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(6)
+                assertThat(player.cardsInHand().size).isEqualTo(6)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(0)
@@ -165,7 +165,7 @@ object PlayerRefillSpek: Spek({
             )
             player.refill(refillingDeck = refillingDeck)
             it("player should have refilled hand") {
-                assertThat(player.cardsInHand.size).isEqualTo(6)
+                assertThat(player.cardsInHand().size).isEqualTo(6)
             }
             it("refilling deck have cards removed") {
                 assertThat(refillingDeck.cards.size).isEqualTo(3)

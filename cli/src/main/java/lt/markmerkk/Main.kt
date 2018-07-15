@@ -17,6 +17,8 @@ fun main(args: Array<String>) {
     )
     val turnsManager = TurnsManager(players)
     val game = Game(Card.generateDeck(), players, turnsManager)
+    game.resetGame()
+    game.refillPlayerCards()
 
     // Cli control components
     val inputReader = Scanner(System.`in`)
@@ -31,7 +33,7 @@ fun main(args: Array<String>) {
 
     println("Hello and welcome to game of 'Stupid'!")
     while (!game.isGameOver) {
-        game.runTurn()
+        game.printGameStatus()
         val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
         when (inputAction) {
             is ActionGame -> actionExecutorGame.execute(inputAction)

@@ -8,7 +8,7 @@ class TurnsManager(
         players: List<Player>
 ) {
 
-    var players = players
+    private var players = players
     var attackingPlayer: Player
     var defendingPlayer: Player
 

@@ -5,8 +5,25 @@ package lt.markmerkk.durak
  */
 data class Player(
         val name: String,
-        var cardsInHand: List<Card> = emptyList()
+        private var cardsInHand: List<Card> = emptyList()
 ) {
+
+    fun reset() {
+        cardsInHand = emptyList()
+    }
+
+    fun cardsInHandSize(): Int = cardsInHand.size
+
+    fun cardsInHand(): List<Card> = cardsInHand
+
+    @Throws(IllegalArgumentException::class)
+    fun removeCard(card: Card) {
+        if (!cardsInHand.contains(card)) {
+            throw IllegalArgumentException("Player ${this} does not have $card in hand")
+        }
+        cardsInHand = cardsInHand.minus(card)
+    }
+
     fun refill(refillingDeck: RefillingDeck) {
         val refilledCards = cardsInHand.toMutableList()
         val cardsToRefill = Consts.MAX_REFILL_HAND - cardsInHand.size

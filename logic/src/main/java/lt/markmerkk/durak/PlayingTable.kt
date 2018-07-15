@@ -6,6 +6,30 @@ package lt.markmerkk.durak
 class PlayingTable(
         var cards: List<PlayingCardPair>
 ) {
+
+    /**
+     * Place attacking [Card] on the [PlayingTable]
+     * Attacking [Card] must be of the same [CardRank] as any card on the [PlayingTable]
+     * Attacking card pairs cannot exceed [Consts.MAX_PAIRS_ON_TABLE]
+     */
+    @Throws(IllegalArgumentException::class)
+    fun attack(card: Card) {
+        if (cards.size >= Consts.MAX_PAIRS_ON_TABLE) {
+            throw IllegalArgumentException("Table already has max card pairs (${Consts.MAX_PAIRS_ON_TABLE})")
+        }
+        val ranksOnTable = filterRanksOnTable()
+        val cardRankIsOnTable = ranksOnTable.contains(card.rank)
+        if (cards.isNotEmpty() && !cardRankIsOnTable) {
+            throw IllegalArgumentException("No such rank on the table (throwing in $card, $ranksOnTable on table )")
+        }
+        cards = cards.plus(
+                PlayingCardPair(
+                        attackingCard = card,
+                        defendingCard = null
+                )
+        )
+    }
+
     /**
      * Filters out all the ranks on the table
      */
@@ -29,6 +53,13 @@ class PlayingTable(
         return cards
                 .find { it.defendingCard == null }
                 ?.attackingCard
+    }
+
+    override fun toString(): String {
+        val cardsOnTable = cards
+                .map { "${it.attackingCard}/${it.defendingCard}" }
+                .joinToString(",")
+        return "PlayingTable:($cardsOnTable)"
     }
 }
 

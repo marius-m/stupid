@@ -5,8 +5,28 @@ import lt.markmerkk.durak.*
 /**
  * Defines possible actions for attacking player
  */
-class PossibleAttackingActionsFilter {
+class PossibleAttackingActionsFilter(
+        private val playingTable: PlayingTable
+) {
 
+    /**
+     * Wrapper for [filterActions] by using [ActionGame] instance
+     */
+    fun availableActions(
+            actionGame: ActionGame,
+            defensivePlayerCardSizeInHand: Int
+    ): List<ActionGame> {
+        return filterActions(
+                actionGame.actionIssuer,
+                actionGame.actionIssuer.cardsInHand(),
+                playingTable,
+                defensivePlayerCardSizeInHand
+        )
+    }
+
+    /**
+     * Filters all available actions
+     */
     fun filterActions(
             attackingPlayer: Player,
             attackingPlayerCardsInHand: List<Card>,

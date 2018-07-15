@@ -11,13 +11,12 @@ class ActionExecutorGame(
 ) {
     fun execute(action: ActionGame) {
         println("[INFO] Executing game action: $action")
-        when (action) {
+        return when (action) {
             is ActionThrowInCard -> {
                 println("[INFO] Trying to throw in card ${action.thrownCard} by ${action.actionIssuer}")
+                game.throwCard(action)
             }
-            else -> {
-                println("[WARN] Action cannot be defined")
-            }
-        }.javaClass
+            else -> { println("[WARN] Action cannot be defined") }
+        }
     }
 }

@@ -14,7 +14,7 @@ import org.jetbrains.spek.api.dsl.on
 
 object PossibleAttackingActionsFilterSpek : Spek({
     val attackingPlayer = Player(name = "Marius")
-    val possibleAttackingActionsFilter = PossibleAttackingActionsFilter()
+    val possibleAttackingActionsFilter = PossibleAttackingActionsFilter(playingTable = PlayingTable(cards = emptyList()))
 
     given("no cards at the table") {
         on("no rules bounding attacking player") {
