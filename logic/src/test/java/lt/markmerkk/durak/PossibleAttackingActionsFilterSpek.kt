@@ -1,6 +1,8 @@
 package lt.markmerkk.durak
 
 import lt.markmerkk.Mocks
+import lt.markmerkk.durak.CardRank.*
+import lt.markmerkk.durak.CardSuite.*
 import lt.markmerkk.durak.actions.ActionFinishRound
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import lt.markmerkk.durak.actions.PossibleAttackingActionsFilter
@@ -11,16 +13,18 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
 object PossibleAttackingActionsFilterSpek : Spek({
+    val attackingPlayer = Player(name = "Marius")
     val possibleAttackingActionsFilter = PossibleAttackingActionsFilter()
 
     given("no cards at the table") {
         on("no rules bounding attacking player") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.SPADE, CardRank.ACE),
-                            Card(CardSuite.SPADE, CardRank.KING),
-                            Card(CardSuite.SPADE, CardRank.QUEEN),
-                            Card(CardSuite.SPADE, CardRank.JACK)
+                            Card(SPADE, ACE),
+                            Card(SPADE, KING),
+                            Card(SPADE, QUEEN),
+                            Card(SPADE, JACK)
                     ),
                     playingTable = Mocks.createPlayingTable(),
                     defensivePlayerCardSizeInHand = 6
@@ -28,10 +32,10 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             it("should be able to throw in any card") {
                 assertThat(resultActions).containsExactlyInAnyOrder(
-                        ActionThrowInCard(thrownCard = Card(CardSuite.SPADE, CardRank.ACE)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.SPADE, CardRank.KING)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.SPADE, CardRank.QUEEN)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.SPADE, CardRank.JACK))
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(SPADE, ACE)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(SPADE, KING)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(SPADE, QUEEN)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(SPADE, JACK))
                 )
             }
         }
@@ -41,16 +45,17 @@ object PossibleAttackingActionsFilterSpek : Spek({
     given("there is one undefended card on the table") {
         on("one card of the same rank in player hand") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -60,25 +65,26 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             it("should be able to throw in same rank card") {
                 assertThat(resultActions).containsExactlyInAnyOrder(
-                        ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.JACK))
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, JACK))
                 )
             }
         }
 
         on("more than one card with same rank in player hand") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.DIAMOND, CardRank.JACK),
-                            Card(CardSuite.CLUB, CardRank.JACK)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(DIAMOND, JACK),
+                            Card(CLUB, JACK)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -89,24 +95,25 @@ object PossibleAttackingActionsFilterSpek : Spek({
             // Assert
             it("should be able to throw in same rank card") {
                 assertThat(resultActions).containsExactlyInAnyOrder(
-                        ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.JACK)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.DIAMOND, CardRank.JACK)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.CLUB, CardRank.JACK))
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, JACK)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(DIAMOND, JACK)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(CLUB, JACK))
                 )
             }
         }
 
         on("no card of the same rank in the player hand") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -123,17 +130,18 @@ object PossibleAttackingActionsFilterSpek : Spek({
     given("there is one defended pair on the table") {
         on("player has one more card to add") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     )
                             )
                     ),
@@ -142,8 +150,8 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             it("should be able to throw in same rank card") {
                 assertThat(resultActions).contains(
-                        ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.JACK)),
-                        ActionThrowInCard(thrownCard = Card(CardSuite.HEART, CardRank.KING))
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, JACK)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, KING))
                 )
             }
         }
@@ -152,39 +160,40 @@ object PossibleAttackingActionsFilterSpek : Spek({
     given("there is 6 pairs on the table") {
         on("all pairs are defended") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     )
                             )
                     ),
@@ -198,38 +207,39 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
         on("not all pairs are defended") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -247,26 +257,27 @@ object PossibleAttackingActionsFilterSpek : Spek({
     given("defensive player does not have enough cards for adding more") {
         on("defensive player has too little cards to defend") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.CLUB, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(CLUB, KING)
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -281,26 +292,27 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
         on("defensive player has just the right amount of cards for defense") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -315,22 +327,23 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
         on("defensive player has more than enough cards to defend") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     ),
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.KING),
+                                            attackingCard = Card(SPADE, KING),
                                             defendingCard = null
                                     )
                             )
@@ -340,8 +353,8 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
             it("only one card may be thrown in") {
                 assertThat(resultActions).containsExactlyInAnyOrder(
-                        ActionThrowInCard(Card(CardSuite.HEART, CardRank.JACK)),
-                        ActionThrowInCard(Card(CardSuite.HEART, CardRank.KING))
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, JACK)),
+                        ActionThrowInCard(actionIssuer = attackingPlayer, thrownCard = Card(HEART, KING))
                 )
             }
         }
@@ -350,13 +363,14 @@ object PossibleAttackingActionsFilterSpek : Spek({
     given("figure when to show action finish round") {
         on("no cards on the table") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(emptyList()),
                     defensivePlayerCardSizeInHand = 6
@@ -369,18 +383,19 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
         on("not finished action") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
+                                            attackingCard = Card(SPADE, JACK),
                                             defendingCard = null
                                     )
                             )
@@ -395,19 +410,20 @@ object PossibleAttackingActionsFilterSpek : Spek({
 
         on("finished defending") {
             val resultActions = possibleAttackingActionsFilter.filterActions(
+                    attackingPlayer = attackingPlayer,
                     attackingPlayerCardsInHand = Mocks.createCards(
-                            Card(CardSuite.HEART, CardRank.ACE),
-                            Card(CardSuite.HEART, CardRank.KING),
-                            Card(CardSuite.HEART, CardRank.QUEEN),
-                            Card(CardSuite.HEART, CardRank.JACK),
-                            Card(CardSuite.HEART, CardRank.TEN),
-                            Card(CardSuite.HEART, CardRank.EIGHT)
+                            Card(HEART, ACE),
+                            Card(HEART, KING),
+                            Card(HEART, QUEEN),
+                            Card(HEART, JACK),
+                            Card(HEART, TEN),
+                            Card(HEART, EIGHT)
                     ),
                     playingTable = Mocks.createPlayingTable(
                             listOf(
                                     PlayingCardPair(
-                                            attackingCard = Card(CardSuite.SPADE, CardRank.JACK),
-                                            defendingCard = Card(CardSuite.SPADE, CardRank.KING)
+                                            attackingCard = Card(SPADE, JACK),
+                                            defendingCard = Card(SPADE, KING)
                                     )
                             )
                     ),

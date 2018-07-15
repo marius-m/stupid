@@ -1,6 +1,7 @@
 package lt.markmerkk.durak.actions
 
 import lt.markmerkk.durak.Card
+import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.PlayingTable
 
 /**
@@ -12,6 +13,7 @@ class PossibleDefendingActionsFilter {
      * Filters out possible action to be taken for defensive player
      */
     fun filterActions(
+            defendingPlayer: Player,
             defendingPlayerCardsInHand: List<Card>,
             playingTable: PlayingTable
     ): List<ActionGame> {
@@ -23,7 +25,7 @@ class PossibleDefendingActionsFilter {
             filterDefendableCardsAgainst(
                     firstUndefendedCardOnTable,
                     defendingPlayerCardsInHand
-            ).map { ActionThrowInCard(it) }
+            ).map { ActionThrowInCard(defendingPlayer, it) }
         } else {
             emptyList()
         }

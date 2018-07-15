@@ -1,9 +1,6 @@
 package lt.markmerkk.durak.actions
 
-import lt.markmerkk.durak.Card
-import lt.markmerkk.durak.Consts
-import lt.markmerkk.durak.PlayingTable
-import lt.markmerkk.durak.filterSameRank
+import lt.markmerkk.durak.*
 
 /**
  * Defines possible actions for attacking player
@@ -11,12 +8,14 @@ import lt.markmerkk.durak.filterSameRank
 class PossibleAttackingActionsFilter {
 
     fun filterActions(
+            attackingPlayer: Player,
             attackingPlayerCardsInHand: List<Card>,
             playingTable: PlayingTable,
             defensivePlayerCardSizeInHand: Int
     ): List<ActionGame> {
         val resultCards: MutableList<ActionGame> = mutableListOf()
         val throwInCardsActions = handleThrowInCardsActions(
+                attackingPlayer,
                 attackingPlayerCardsInHand,
                 playingTable,
                 defensivePlayerCardSizeInHand
@@ -39,12 +38,13 @@ class PossibleAttackingActionsFilter {
     }
 
     private fun handleThrowInCardsActions(
+            attackingPlayer: Player,
             attackingPlayerCardsInHand: List<Card>,
             playingTable: PlayingTable,
             defensivePlayerCardSizeInHand: Int
     ): List<ActionGame> {
         if (playingTable.cards.isEmpty()) {
-            return attackingPlayerCardsInHand.map { ActionThrowInCard(it) }
+            return attackingPlayerCardsInHand.map { ActionThrowInCard(attackingPlayer, it) }
         }
         val undefendedCardsOnTable = playingTable.undefendedCardsOnTable()
         if (undefendedCardsOnTable.size >= defensivePlayerCardSizeInHand) {
@@ -56,7 +56,7 @@ class PossibleAttackingActionsFilter {
         return playingTable
                 .filterRanksOnTable()
                 .flatMap { attackingPlayerCardsInHand.filterSameRank(it) }
-                .map { ActionThrowInCard(it) }
+                .map { ActionThrowInCard(attackingPlayer, it) }
     }
 
 }
