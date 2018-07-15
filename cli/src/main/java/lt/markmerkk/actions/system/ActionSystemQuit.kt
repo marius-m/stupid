@@ -1,8 +1,16 @@
 package lt.markmerkk.actions.system
 
-class ActionSystemQuit : ActionSystem {
+import lt.markmerkk.durak.Player
+
+data class ActionSystemQuit(
+        override val actionIssuer: Player? = null
+) : ActionSystem {
     override fun execute() {
-        println("[INFO] Exiting game")
+        if (actionIssuer != null) {
+            print("[INFO] ${actionIssuer.name} has quit the game!")
+        } else {
+            print("[INFO] Exit was issued!")
+        }
         System.exit(0)
     }
 }

@@ -3,7 +3,8 @@ package lt.markmerkk
 import lt.markmerkk.actions.ActionExecutorGame
 import lt.markmerkk.actions.ActionExecutorSystem
 import lt.markmerkk.durak.actions.ActionGame
-import lt.markmerkk.actions.ActionTranslator
+import lt.markmerkk.actions.ActionTranslatorQuit
+import lt.markmerkk.actions.CliInputHandler
 import lt.markmerkk.actions.system.ActionSystem
 import lt.markmerkk.durak.Card
 import lt.markmerkk.durak.Game
@@ -22,14 +23,18 @@ fun main(args: Array<String>) {
 
     // Cli control components
     val inputReader = Scanner(System.`in`)
-    val actionTranslator = ActionTranslator()
     val actionExecutorSystem = ActionExecutorSystem()
     val actionExecutorGame = ActionExecutorGame()
+    val cliInputHandler = CliInputHandler(
+            actionTranslators = listOf(
+                    ActionTranslatorQuit(players)
+            )
+    )
 
     println("Hello and welcome to game of 'Stupid'!")
     while (!game.isGameOver) {
         game.runTurn()
-        val inputAction = actionTranslator.translateAction(inputReader.next())
+        val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
         when (inputAction) {
             is ActionGame -> actionExecutorGame.execute(inputAction)
             is ActionSystem -> actionExecutorSystem.execute(inputAction)
