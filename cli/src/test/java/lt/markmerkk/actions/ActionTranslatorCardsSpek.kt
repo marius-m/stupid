@@ -1,6 +1,6 @@
 package lt.markmerkk.durak
 
-import lt.markmerkk.actions.ActionTranslatorCards
+import lt.markmerkk.actions.ActionTranslatorThrowCards
 import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import org.assertj.core.api.Assertions.assertThat
@@ -14,7 +14,7 @@ object ActionTranslatorCardsSpek : Spek({
     given("translator has valid players") {
         val player1 = Player(name = "Marius")
         val player2 = Player(name = "Enrika")
-        val translatorValidPlayers = ActionTranslatorCards(players = listOf(player1, player2))
+        val translatorValidPlayers = ActionTranslatorThrowCards(players = listOf(player1, player2))
         val allCardValues = CardSuite.values().toList()
                 .combine(CardRank.values().toList())
                 .map { (suite, rank) -> Card(suite, rank) }
@@ -39,7 +39,7 @@ object ActionTranslatorCardsSpek : Spek({
     }
 
     given("translator no players") {
-        val translatorValidPlayers = ActionTranslatorCards(players = emptyList())
+        val translatorValidPlayers = ActionTranslatorThrowCards(players = emptyList())
 
         on("valid action") {
             val resultAction = translatorValidPlayers.translateAction("Marius throw D9")

@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
     val cliInputHandler = CliInputHandler(
             actionTranslators = listOf(
                     ActionTranslatorQuit(players),
-                    ActionTranslatorCards(players)
+                    ActionTranslatorThrowCards(players)
             )
     )
 

@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 /**
  * Responsible for parsing card throwing actions
  */
-class ActionTranslatorCards(
+class ActionTranslatorThrowCards(
         private val players: List<Player> = emptyList()
 ) : ActionTranslator {
 
