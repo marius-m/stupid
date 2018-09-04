@@ -54,14 +54,14 @@ fun printGameStatus(
         turnsManager: TurnsManager,
         cliCardDrawer: CliCardDrawer
 ) {
+    print("\n--- Cards on table --- \n ")
+    print(cliCardDrawer.drawCards(playingTable.allAttackingCards()))
+    print(cliCardDrawer.drawCards(playingTable.allDefendingCards()))
+    print("\n------- \n")
     players.forEach {
         print("${it.name}'s cards (${it.cardsInHandSize()}): \n")
         print(cliCardDrawer.drawCards(it.cardsInHand()))
         print("\n")
     }
-    print("\n--- Cards on table --- \n ")
-    print(cliCardDrawer.drawCards(playingTable.allAttackingCards()))
-    print(cliCardDrawer.drawCards(playingTable.allDefendingCards()))
-    print("\n------- \n")
     print("Game status: ${turnsManager.attackingPlayer.name} turn to attack\n")
 }
