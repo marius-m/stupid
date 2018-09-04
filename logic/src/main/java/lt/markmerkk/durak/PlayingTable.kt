@@ -7,6 +7,13 @@ class PlayingTable(
         var cards: List<PlayingCardPair>
 ) {
 
+    fun allAttackingCards(): List<Card> {
+        return cards.map { it.attackingCard }
+    }
+
+    fun allDefendingCards(): List<Card> = cards
+            .mapNotNull { it.defendingCard }
+
     /**
      * Place attacking [Card] on the [PlayingTable]
      * Attacking [Card] must be of the same [CardRank] as any card on the [PlayingTable]

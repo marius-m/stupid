@@ -3,10 +3,7 @@ package lt.markmerkk
 import lt.markmerkk.actions.*
 import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.actions.system.ActionSystem
-import lt.markmerkk.durak.Card
-import lt.markmerkk.durak.Game
-import lt.markmerkk.durak.Player
-import lt.markmerkk.durak.TurnsManager
+import lt.markmerkk.durak.*
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -15,8 +12,14 @@ fun main(args: Array<String>) {
             Player("Marius"),
             Player("Enrika")
     )
-    val turnsManager = TurnsManager(players)
-    val game = Game(Card.generateDeck(), players, turnsManager)
+    val turnsManager = TurnsManager(players = players)
+    val playingTable = PlayingTable(cards = emptyList())
+    val game = Game(
+            cards = Card.generateDeck(),
+            players = players,
+            turnsManager = turnsManager,
+            playingTable = playingTable
+    )
     game.resetGame()
     game.refillPlayerCards()
 
@@ -30,10 +33,11 @@ fun main(args: Array<String>) {
                     ActionTranslatorThrowCards(players)
             )
     )
+    val cliCardDrawer = CliCardDrawer()
 
     println("Hello and welcome to game of 'Stupid'!")
     while (!game.isGameOver) {
-        game.printGameStatus()
+        printGameStatus(players, playingTable, turnsManager, cliCardDrawer)
         val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
         when (inputAction) {
             is ActionGame -> actionExecutorGame.execute(inputAction)
@@ -41,4 +45,23 @@ fun main(args: Array<String>) {
             else -> println("[WARN] Action cannot be executed")
         }
     }
+
+}
+
+fun printGameStatus(
+        players: List<Player>,
+        playingTable: PlayingTable,
+        turnsManager: TurnsManager,
+        cliCardDrawer: CliCardDrawer
+) {
+    players.forEach {
+        print("${it.name}'s cards (${it.cardsInHandSize()}): \n")
+        print(cliCardDrawer.drawCards(it.cardsInHand()))
+        print("\n")
+    }
+    print("\n--- Cards on table --- \n ")
+    print(cliCardDrawer.drawCards(playingTable.allAttackingCards()))
+    print(cliCardDrawer.drawCards(playingTable.allDefendingCards()))
+    print("\n------- \n")
+    print("Game status: ${turnsManager.attackingPlayer.name} turn to attack\n")
 }

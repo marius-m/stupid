@@ -18,14 +18,6 @@ class Game(
 
     var isGameOver = false
 
-    fun printGameStatus() {
-        println("Players: $players")
-        players.forEach { println("${it.name} has ${it.cardsInHand()}") }
-        println("Refilling deck : $refillingDeck")
-        println("Playing table : $playingTable")
-        println("Game status: ${turnsManager.attackingPlayer.name} turn to attack")
-    }
-
     //region Game actions
 
     fun resetGame() {
