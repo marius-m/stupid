@@ -20,9 +20,9 @@ class CliCardDrawer {
             for (cardIndex in 0 until cardCount) {
                 val cardDrawing = when (representationLineIndex) {
                     CardTemplate.LINE_RANK_LABEL_FIRST -> cardTemplates[cardIndex]
-                            .representationLines[representationLineIndex].format(cardRankDisplayUpper(cards[cardIndex]))
+                            .representationLines[representationLineIndex].format(CardTemplate.cardDisplayUpper(cards[cardIndex]))
                     CardTemplate.LINE_RANK_LABEL_LAST -> cardTemplates[cardIndex]
-                            .representationLines[representationLineIndex].format(cardRankDisplayLower(cards[cardIndex]))
+                            .representationLines[representationLineIndex].format(CardTemplate.cardDisplayLower(cards[cardIndex]))
                     else -> cardTemplates[cardIndex].representationLines[representationLineIndex]
                 }
                 sb.append(cardDrawing)
@@ -33,29 +33,10 @@ class CliCardDrawer {
     }
 
     /**
-     * Formats upper card rank display
-     * Will format display as a two symbol part.
-     * ex: 9 == "9 "; 10 == "10"
+     * Represents a display for a card in CLI form
+     * Upper half will display card rank (will always form as a 2 symbol)
+     * Lower half will display card rank + suite as a 3 symbol template (will always for as 3 symbol)
      */
-    internal fun cardRankDisplayUpper(card: Card): String {
-        if (card.rank.out.count() > 1) {
-            return card.rank.out
-        }
-        return "${card.rank.out} "
-    }
-
-    /**
-     * Formats lower card rank display
-     * Will format display as a two symbol part.
-     * ex: 9 == "_9"; 10 == "10"
-     */
-    internal fun cardRankDisplayLower(card: Card): String {
-        if (card.rank.out.count() > 1) {
-            return card.rank.out
-        }
-        return "_${card.rank.out}"
-    }
-
     enum class CardTemplate(
             val representationLines: List<String>
     ) {
@@ -65,7 +46,7 @@ class CliCardDrawer {
                 "|  /.\\  |",
                 "| (_._) |",
                 "|   |   |",
-                "|_____%s|"
+                "|____%s|"
         )),
         DIAMOND(listOf(
                 " _______ ",
@@ -73,7 +54,7 @@ class CliCardDrawer {
                 "|  / \\  |",
                 "|  \\ /  |",
                 "|   .   |",
-                "|_____%s|"
+                "|____%s|"
         )),
         CLUB(listOf(
                 " _______ ",
@@ -81,7 +62,7 @@ class CliCardDrawer {
                 "|  ( )  |",
                 "| (_'_) |",
                 "|   |   |",
-                "|_____%s|"
+                "|____%s|"
         )),
         HEART(listOf(
                 " _______ ",
@@ -89,7 +70,7 @@ class CliCardDrawer {
                 "| ( v ) |",
                 "|  \\ /  |",
                 "|   .   |",
-                "|_____%s|"
+                "|____%s|"
         ))
         ;
 
@@ -99,6 +80,7 @@ class CliCardDrawer {
             const val LINE_LAST = MAX_LINES - 1
             const val LINE_RANK_LABEL_FIRST = 1
             const val LINE_RANK_LABEL_LAST = MAX_LINES - 1
+            const val LINE_MAX_COLUMNS = 8
 
             val representationLineRange = 0 until MAX_LINES
 
@@ -108,6 +90,32 @@ class CliCardDrawer {
                 CardSuite.HEART -> HEART
                 CardSuite.CLUB -> CLUB
             }
+
+            /**
+             * Formats upper card rank display
+             * Will format display as a 2 symbol part.
+             * ex: 9 == "9 "; 10 == "10"
+             */
+            internal fun cardDisplayUpper(card: Card): String {
+                if (card.rank.out.count() > 1) {
+                    return card.rank.out
+                }
+                return "${card.rank.out} "
+            }
+
+            /**
+             * Formats lower card suite and rank verbally
+             * Will format display as a 3 symbol part.
+             * ex: SPADE NINE == "_S9"; HEART TEN == "H10"
+             */
+            internal fun cardDisplayLower(card: Card): String {
+                val displayLower = "${card.suite.out}${card.rank.out}"
+                if (displayLower.count() < 3) {
+                    return "_$displayLower"
+                }
+                return displayLower
+            }
+
         }
 
     }
