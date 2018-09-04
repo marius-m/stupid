@@ -7,4 +7,6 @@ import lt.markmerkk.durak.Player
  */
 data class ActionTakeAllCards(
         override val actionIssuer: Player
-) : ActionGame
+) : ActionGame {
+    override val actionUseDescription: String = "${actionIssuer.name} take all"
+}

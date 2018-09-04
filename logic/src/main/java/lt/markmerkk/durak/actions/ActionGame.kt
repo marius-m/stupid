@@ -7,4 +7,5 @@ import lt.markmerkk.durak.Player
  */
 interface ActionGame : Action {
     val actionIssuer: Player
+    val actionUseDescription: String
 }

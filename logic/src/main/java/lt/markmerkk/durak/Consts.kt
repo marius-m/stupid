@@ -1,6 +1,9 @@
 package lt.markmerkk.durak
 
 object Consts {
+
+    const val TAG = "Logic"
+
     /**
      * Max cards to be refilled in [Player] hand
      */
