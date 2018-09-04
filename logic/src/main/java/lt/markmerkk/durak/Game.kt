@@ -36,14 +36,11 @@ class Game(
                 defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
         )
         if (!availableAttackerActions.contains(actionThrowInCard)) {
-            val availableActionDescriptions = availableAttackerActions
-                    .map { it.actionUseDescription }
-                    .joinToString(separator = ",\n\t\t", prefix = "\t\t")
             logger.info("${actionThrowInCard.actionIssuer.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
             if (availableAttackerActions.isEmpty()) {
                 logger.info("${actionThrowInCard.actionIssuer.name} cannot take any actions at this moment!")
             } else {
-                logger.info("Available actions for ${actionThrowInCard.actionIssuer.name} are:\n\t[\n$availableActionDescriptions\n\t]\n")
+                logger.info(availablePlayerActions(actionThrowInCard.actionIssuer))
             }
         } else {
             val actionPlayer = actionThrowInCard.actionIssuer
@@ -51,6 +48,35 @@ class Game(
             actionPlayer.removeCard(actionThrowInCard.thrownCard)
             logger.info("${actionPlayer.name} throws ${actionThrowInCard.thrownCard}\n")
         }
+    }
+
+    /**
+     * Forms available actions for a player
+     */
+    fun availablePlayerActions(
+            player: Player
+    ): String {
+        val availableActions = when {
+            turnsManager.isAttacking(player) -> attackingActionsFilter.filterActions(
+                    attackingPlayer = player,
+                    attackingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
+            )
+            turnsManager.isDefending(player) -> defendingActionsFilter.filterActions(
+                    defendingPlayer = player,
+                    defendingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable
+            )
+            else -> emptyList()
+        }
+        if (availableActions.isEmpty()) {
+            return "${player.name} cannot perform any actions at this moment!\n"
+        }
+        val availableActionDescriptions = availableActions
+                .map { it.actionUseDescription }
+                .joinToString(separator = ",\n\t", prefix = "\t")
+        return "${player.name} can do these actions:\n$availableActionDescriptions\n"
     }
 
     //endregion

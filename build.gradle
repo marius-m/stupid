@@ -63,6 +63,7 @@ project(":cli") {
         compile "org.apache.logging.log4j:log4j-slf4j-impl:$versionLogger"
 
         testCompile("junit:junit:4.12")
+        testCompile group: 'com.nhaarman', name: 'mockito-kotlin', version:'1.5.0'
         testCompile 'org.jetbrains.spek:spek-api:1.1.5'
         testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
         testCompile("org.assertj:assertj-core:3.10.0")

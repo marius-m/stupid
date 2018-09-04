@@ -1,10 +1,7 @@
 package lt.markmerkk.actions
 
 import lt.markmerkk.Consts
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
-import lt.markmerkk.actions.system.ActionIllegalMultipleActions
-import lt.markmerkk.actions.system.ActionSystem
-import lt.markmerkk.actions.system.ActionSystemQuit
+import lt.markmerkk.actions.system.*
 import org.slf4j.LoggerFactory
 
 class ActionExecutorSystem {
@@ -20,6 +17,7 @@ class ActionExecutorSystem {
                 }
                 System.exit(0)
             }
+            is ActionSystemHelp -> logger.info(action.helpMessage)
             else -> {
                 logger.warn("Cannot figure action\n")
             }

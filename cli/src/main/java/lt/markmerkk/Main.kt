@@ -33,7 +33,8 @@ class Main {
         val cliInputHandler = CliInputHandler(
                 actionTranslators = listOf(
                         ActionTranslatorQuit(players),
-                        ActionTranslatorThrowCards(players)
+                        ActionTranslatorThrowCards(players),
+                        ActionTranslatorHelp(players, game)
                 )
         )
         val cliCardDrawer = CliCardDrawer()
@@ -67,6 +68,8 @@ class Main {
             logger.info("\n")
         }
         logger.info("Game status: ${turnsManager.attackingPlayer.name} turn to attack\n")
+        logger.info("For available player actions, type in \"?\"\n")
+        logger.info("For concrete player available actions \"[player name] ?\"\n")
     }
 
     companion object {
