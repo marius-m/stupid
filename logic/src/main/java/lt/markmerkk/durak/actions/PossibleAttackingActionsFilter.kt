@@ -12,6 +12,7 @@ class PossibleAttackingActionsFilter(
     /**
      * Wrapper for [filterActions] by using [ActionGame] instance
      */
+    // todo is this really needed ?
     fun availableActions(
             actionGame: ActionGame,
             defensivePlayerCardSizeInHand: Int
