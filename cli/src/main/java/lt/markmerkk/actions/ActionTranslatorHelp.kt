@@ -22,13 +22,13 @@ class ActionTranslatorHelp(
     override fun translateAction(actionAsString: String): Action {
         if (actionAsString == "?") {
             val sb = StringBuilder()
-            players.forEach { sb.append(game.availablePlayerActions(it)) }
+            players.forEach { sb.append(game.printAvailablePlayerActions(it)) }
             return ActionSystemHelp(helpMessage = sb.toString())
         }
         playerPatterns.forEach { (player, pattern) ->
             val matcher = pattern.matcher(actionAsString)
             if (matcher.find()) {
-                return ActionSystemHelp(game.availablePlayerActions(player))
+                return ActionSystemHelp(game.printAvailablePlayerActions(player))
             }
         }
         return ActionIllegalCannotTranslate(actionAsString)

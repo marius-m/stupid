@@ -1,6 +1,5 @@
 package lt.markmerkk.actions
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.whenever
 import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
@@ -30,8 +29,8 @@ class ActionTranslatorHelpTest {
                 players,
                 game
         )
-        doReturn("actions for $playerName1").whenever(game).availablePlayerActions(players[0])
-        doReturn("actions for $playerName2").whenever(game).availablePlayerActions(players[1])
+        doReturn("actions for $playerName1").whenever(game).printAvailablePlayerActions(players[0])
+        doReturn("actions for $playerName2").whenever(game).printAvailablePlayerActions(players[1])
     }
 
     @Test

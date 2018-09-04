@@ -1,6 +1,5 @@
 package lt.markmerkk.durak
 
-import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import lt.markmerkk.durak.actions.PossibleAttackingActionsFilter
 import lt.markmerkk.durak.actions.PossibleDefendingActionsFilter
@@ -37,11 +36,7 @@ class Game(
         )
         if (!availableAttackerActions.contains(actionThrowInCard)) {
             logger.info("${actionThrowInCard.actionIssuer.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
-            if (availableAttackerActions.isEmpty()) {
-                logger.info("${actionThrowInCard.actionIssuer.name} cannot take any actions at this moment!")
-            } else {
-                logger.info(availablePlayerActions(actionThrowInCard.actionIssuer))
-            }
+            logger.info(printAvailablePlayerActions(actionThrowInCard.actionIssuer))
         } else {
             val actionPlayer = actionThrowInCard.actionIssuer
             playingTable.attack(actionThrowInCard.thrownCard)
@@ -53,7 +48,7 @@ class Game(
     /**
      * Forms available actions for a player
      */
-    fun availablePlayerActions(
+    fun printAvailablePlayerActions(
             player: Player
     ): String {
         val availableActions = when {
