@@ -17,11 +17,11 @@ class FakeTranslatorValid(val outputAction: Action) : ActionTranslator {
 }
 
 class FakeAction1 : Action {
-    override val actionIssuer: Player? = null
-    override fun execute() {}
+//    override val actionIssuer: Player? = null
+//    override fun execute() {}
 }
 
 class FakeAction2 : Action {
-    override val actionIssuer: Player? = null
-    override fun execute() {}
+//    override val actionIssuer: Player? = null
+//    override fun execute() {}
 }
