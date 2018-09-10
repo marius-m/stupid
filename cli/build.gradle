@@ -1,6 +1,9 @@
 version '1.0'
 
+apply plugin: 'application'
 apply plugin: 'kotlin'
+
+mainClassName = "lt.markmerkk.MainKt"
 
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -11,3 +14,6 @@ eclipse.project {
     name = appName + "-cli"
 }
 
+run {
+    standardInput = System.in
+}

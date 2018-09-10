@@ -4,6 +4,7 @@ import lt.markmerkk.actions.*
 import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.actions.system.ActionSystem
 import lt.markmerkk.durak.*
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.Scanner
 
@@ -44,6 +45,7 @@ class Main {
         while (!game.isGameOver) {
             printGameStatus(players, playingTable, turnsManager, cliCardDrawer)
             val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
+            logger.divider()
             when (inputAction) {
                 is ActionGame -> actionExecutorGame.execute(inputAction)
                 is ActionSystem -> actionExecutorSystem.execute(inputAction)
@@ -80,4 +82,15 @@ class Main {
 
 fun main(args : Array<String>) {
     Main().main(args)
+}
+
+/**
+ * Prints massive divider
+ */
+fun Logger.divider() {
+    info("------------------------------------------\n")
+    info("------------------------------------------\n")
+    info("------------------------------------------\n")
+    info("------------------------------------------\n")
+    info("------------------------------------------\n")
 }
