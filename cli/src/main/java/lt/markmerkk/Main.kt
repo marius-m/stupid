@@ -34,7 +34,8 @@ class Main {
                 actionTranslators = listOf(
                         ActionTranslatorQuit(players),
                         ActionTranslatorThrowCards(players),
-                        ActionTranslatorHelp(players, game)
+                        ActionTranslatorHelp(players, game),
+                        ActionTranslatorTakeAll(players)
                 )
         )
         val cliCardDrawer = CliCardDrawer()
