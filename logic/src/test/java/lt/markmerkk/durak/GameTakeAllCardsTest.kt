@@ -51,6 +51,8 @@ class GameTakeAllCardsTest {
         )
         doReturn(playerAttacking).whenever(turnsManager).attackingPlayer
         doReturn(playerDefending).whenever(turnsManager).defendingPlayer
+        doNothing().whenever(playerAttacking).refill(any())
+        doNothing().whenever(playerDefending).refill(any())
     }
 
     @Test
@@ -75,6 +77,7 @@ class GameTakeAllCardsTest {
         verify(playingTable).clearAllCards()
         verify(playerDefending).addCards(cardsOnTable)
         verify(turnsManager, never()).endRound()
+        players.forEach { verify(it).refill(refillingDeck) }
     }
 
     @Test
