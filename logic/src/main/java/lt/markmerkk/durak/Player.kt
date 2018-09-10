@@ -24,6 +24,10 @@ data class Player(
         cardsInHand = cardsInHand.minus(card)
     }
 
+    fun addCards(cards: List<Card>) {
+        cardsInHand = cardsInHand.plus(cards)
+    }
+
     fun refill(refillingDeck: RefillingDeck) {
         val refilledCards = cardsInHand.toMutableList()
         val cardsToRefill = Consts.MAX_REFILL_HAND - cardsInHand.size

@@ -14,6 +14,16 @@ class PlayingTable(
     fun allDefendingCards(): List<Card> = cards
             .mapNotNull { it.defendingCard }
 
+    fun allCards(): List<Card> = allAttackingCards()
+            .plus(allDefendingCards())
+
+    /**
+     * Clears all cards from the table
+     */
+    fun clearAllCards() {
+        cards = emptyList()
+    }
+
     /**
      * Place attacking [Card] on the [PlayingTable]
      * Attacking [Card] must be of the same [CardRank] as any card on the [PlayingTable]

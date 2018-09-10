@@ -1,5 +1,6 @@
 package lt.markmerkk.durak
 
+import lt.markmerkk.durak.actions.ActionTakeAllCards
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import lt.markmerkk.durak.actions.PossibleAttackingActionsFilter
 import lt.markmerkk.durak.actions.PossibleDefendingActionsFilter
@@ -24,6 +25,28 @@ class Game(
 
     fun refillPlayerCards() {
         players.forEach { it.refill(refillingDeck) }
+    }
+
+    fun takeAll(actionTakeAllCards: ActionTakeAllCards) {
+        val player = actionTakeAllCards.actionIssuer
+        if (!turnsManager.isDefending(player)) {
+            logger.info("${player.name} cannot take all cards!\n")
+            logger.info(printAvailablePlayerActions(player))
+            return
+        }
+        val availableActions = defendingActionsFilter.filterActions(
+                defendingPlayer = player,
+                defendingPlayerCardsInHand = player.cardsInHand(),
+                playingTable = playingTable
+        )
+        if (availableActions.contains(actionTakeAllCards)) {
+            player.addCards(playingTable.allCards())
+            playingTable.clearAllCards()
+            logger.info("${player.name} takes all cards\n")
+        } else {
+            logger.info("${player.name} cannot take all cards!\n")
+            logger.info(printAvailablePlayerActions(player))
+        }
     }
 
     fun throwCard(actionThrowInCard: ActionThrowInCard) {
