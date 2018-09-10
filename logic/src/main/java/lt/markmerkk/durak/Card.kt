@@ -44,6 +44,25 @@ data class Card(
             return cards
         }
 
+        fun generateDeckSmall(): List<Card> {
+            val cards = mutableListOf<Card>()
+            for (suite in CardSuite.values()) {
+                val smallerSetOfRanks = CardRank.values()
+                        .filter {
+                            it == CardRank.ACE
+                                    || it == CardRank.KING
+                                    || it == CardRank.QUEEN
+                                    || it == CardRank.JACK
+                                    || it == CardRank.TEN
+                                    || it == CardRank.NINE
+                        }
+                for (rank in smallerSetOfRanks) {
+                    cards.add(Card(suite, rank))
+                }
+            }
+            return cards
+        }
+
         fun fromString(cardAsString: String): Card? {
             if (cardStringMap.containsKey(cardAsString))
                 return cardStringMap[cardAsString]

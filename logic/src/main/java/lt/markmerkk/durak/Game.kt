@@ -6,10 +6,10 @@ import java.util.*
 
 class Game(
         cards: List<Card>,
-        private val players: List<Player>,
-        private val turnsManager: TurnsManager,
-        private val refillingDeck: RefillingDeck = RefillingDeck(cards = ArrayDeque<Card>(cards.toMutableList().shuffled())),
-        private val playingTable: PlayingTable = PlayingTable(cards = emptyList()),
+        val players: List<Player>,
+        val turnsManager: TurnsManager,
+        val refillingDeck: RefillingDeck = RefillingDeck(cards = ArrayDeque<Card>(cards.toMutableList().shuffled())),
+        val playingTable: PlayingTable = PlayingTable(cards = emptyList()),
         private val attackingActionsFilter: PossibleAttackingActionsFilter = PossibleAttackingActionsFilter(playingTable),
         private val defendingActionsFilter: PossibleDefendingActionsFilter = PossibleDefendingActionsFilter()
 ) {

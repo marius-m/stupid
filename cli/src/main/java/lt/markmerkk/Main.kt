@@ -17,12 +17,10 @@ class Main {
                 Player("Enrika")
         )
         val turnsManager = TurnsManager(players = players)
-        val playingTable = PlayingTable(cards = emptyList())
         val game = Game(
-                cards = Card.generateDeck(),
+                cards = Card.generateDeckSmall(),
                 players = players,
-                turnsManager = turnsManager,
-                playingTable = playingTable
+                turnsManager = turnsManager
         )
         game.resetGame()
         game.refillPlayerCards()
@@ -44,7 +42,7 @@ class Main {
 
         logger.info("Hello and welcome to game of 'Stupid'!\n")
         while (!game.isGameOver) {
-            printGameStatus(players, playingTable, turnsManager, cliCardDrawer)
+            printGameStatus(players, game.playingTable, turnsManager, cliCardDrawer, game.refillingDeck)
             val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
             logger.divider()
             when (inputAction) {
@@ -60,7 +58,8 @@ class Main {
             players: List<Player>,
             playingTable: PlayingTable,
             turnsManager: TurnsManager,
-            cliCardDrawer: CliCardDrawer
+            cliCardDrawer: CliCardDrawer,
+            refillingDeck: RefillingDeck
     ) {
         logger.info("\n--- Cards on table --- \n")
         logger.info(cliCardDrawer.drawCards(playingTable.allAttackingCards()))
@@ -71,7 +70,7 @@ class Main {
             logger.info(cliCardDrawer.drawCards(it.cardsInHand()))
             logger.info("\n")
         }
-        logger.info("Game status: ${turnsManager.attackingPlayer.name} turn to attack\n")
+        logger.info("Game status: ${turnsManager.attackingPlayer.name} turn to attack. ${refillingDeck.cards.size} cards left in deck.\n")
         logger.info("For available player actions, type in \"?\"\n")
         logger.info("For concrete player available actions \"[player name] ?\"\n")
     }
