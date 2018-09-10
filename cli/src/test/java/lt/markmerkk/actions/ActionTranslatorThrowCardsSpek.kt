@@ -9,7 +9,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
-object ActionTranslatorCardsSpek : Spek({
+object ActionTranslatorThrowCardsSpek : Spek({
 
     given("translator has valid players") {
         val player1 = Player(name = "Marius")
