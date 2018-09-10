@@ -1,9 +1,8 @@
 package lt.markmerkk.durak
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
 
-class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
+class TurnsManagerEndRoundTest : AbsTurnsManagerTest() {
 
     @org.junit.Test
     fun players2_next() {
@@ -12,7 +11,7 @@ class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
         assertThat(turnsManager2Player.defendingPlayer).isEqualTo(player2)
 
         // Act
-        turnsManager2Player.nextTurn()
+        turnsManager2Player.endRound()
 
         // Assert
         assertThat(turnsManager2Player.attackingPlayer).isEqualTo(player2)
@@ -26,14 +25,14 @@ class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
         assertThat(turnsManager3Player.defendingPlayer).isEqualTo(player2)
 
         // Act
-        turnsManager3Player.nextTurn()
+        turnsManager3Player.endRound()
 
         // Assert
         assertThat(turnsManager3Player.attackingPlayer).isEqualTo(player2)
         assertThat(turnsManager3Player.defendingPlayer).isEqualTo(player3)
 
         // Act
-        turnsManager3Player.nextTurn()
+        turnsManager3Player.endRound()
 
         // Assert
         assertThat(turnsManager3Player.attackingPlayer).isEqualTo(player3)
@@ -47,21 +46,21 @@ class TurnsManagerNextTurnTest : AbsTurnsManagerTest() {
         assertThat(turnsManager4Player.defendingPlayer).isEqualTo(player2)
 
         // Act
-        turnsManager4Player.nextTurn()
+        turnsManager4Player.endRound()
 
         // Assert
         assertThat(turnsManager4Player.attackingPlayer).isEqualTo(player2)
         assertThat(turnsManager4Player.defendingPlayer).isEqualTo(player3)
 
         // Act
-        turnsManager4Player.nextTurn()
+        turnsManager4Player.endRound()
 
         // Assert
         assertThat(turnsManager4Player.attackingPlayer).isEqualTo(player3)
         assertThat(turnsManager4Player.defendingPlayer).isEqualTo(player4)
 
         // Act
-        turnsManager4Player.nextTurn()
+        turnsManager4Player.endRound()
 
         // Assert
         assertThat(turnsManager4Player.attackingPlayer).isEqualTo(player4)

@@ -1,7 +1,6 @@
 package lt.markmerkk.durak
 
 import com.nhaarman.mockito_kotlin.*
-import junit.framework.Assert.fail
 import lt.markmerkk.durak.CardRank.*
 import lt.markmerkk.durak.CardSuite.*
 import lt.markmerkk.durak.actions.*
@@ -75,6 +74,7 @@ class GameTakeAllCardsTest {
         // Assert
         verify(playingTable).clearAllCards()
         verify(playerDefending).addCards(cardsOnTable)
+        verify(turnsManager).endRound()
     }
 
     @Test
@@ -98,6 +98,7 @@ class GameTakeAllCardsTest {
         // Assert
         verify(playingTable, never()).clearAllCards()
         verify(playerDefending, never()).addCards(cardsOnTable)
+        verify(turnsManager, never()).endRound()
     }
 
     @Test
@@ -121,5 +122,6 @@ class GameTakeAllCardsTest {
         // Assert
         verify(playingTable, never()).clearAllCards()
         verify(playerDefending, never()).addCards(cardsOnTable)
+        verify(turnsManager, never()).endRound()
     }
 }

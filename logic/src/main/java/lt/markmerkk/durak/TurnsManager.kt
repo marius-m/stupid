@@ -20,7 +20,7 @@ class TurnsManager(
         defendingPlayer = nextOf(attackingPlayer)
     }
 
-    fun nextTurn() {
+    fun endRound() {
         attackingPlayer = defendingPlayer
         defendingPlayer = nextOf(attackingPlayer)
     }

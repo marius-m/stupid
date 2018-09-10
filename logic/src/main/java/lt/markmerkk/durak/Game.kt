@@ -42,7 +42,9 @@ class Game(
         if (availableActions.contains(actionTakeAllCards)) {
             player.addCards(playingTable.allCards())
             playingTable.clearAllCards()
+            turnsManager.endRound()
             logger.info("${player.name} takes all cards\n")
+            logger.info("Round ended. ${turnsManager.attackingPlayer.name} is now attacking!\n")
         } else {
             logger.info("${player.name} cannot take all cards!\n")
             logger.info(printAvailablePlayerActions(player))
