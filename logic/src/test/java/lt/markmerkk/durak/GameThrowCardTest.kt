@@ -13,7 +13,6 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-// todo: Incomplete suite
 class GameThrowCardTest {
 
     @Mock lateinit var turnsManager: TurnsManager
@@ -97,6 +96,25 @@ class GameThrowCardTest {
     }
 
     @Test
+    fun attack_throws() {
+        // Assemble
+        val card = Card(HEART, KING)
+        val action = ActionThrowInCard(
+                actionIssuer = playerAttacking,
+                thrownCard = card
+        )
+        doReturn(true).whenever(turnsManager).isAttacking(any())
+        doReturn(listOf(action)).whenever(attackingActionsFilter).filterActions(any(), any(), any(), any())
+        doThrow(IllegalArgumentException()).whenever(playingTable).attack(any()) // illegal action performed
+
+        // Act
+        game.throwCard(action)
+
+        // Assert
+        verify(playerAttacking, never()).removeCard(card)
+    }
+
+    @Test
     fun defend_validAction() {
         // Assemble
         val card = Card(SPADE, KING)
@@ -111,9 +129,46 @@ class GameThrowCardTest {
         game.throwCard(action)
 
         // Assert
-        fail("Incomplete test")
-//        verify(playingTable).attack(card)
-        verify(playerAttacking).removeCard(card)
+        verify(playingTable).defend(card)
+        verify(playerDefending).removeCard(card)
+    }
+
+    @Test
+    fun defend_invalidAction() {
+        // Assemble
+        val card = Card(SPADE, KING)
+        val action = ActionThrowInCard(
+                actionIssuer = playerDefending,
+                thrownCard = card
+        )
+        doReturn(true).whenever(turnsManager).isDefending(any())
+        doReturn(emptyList<ActionGame>()).whenever(defendingActionsFilter).filterActions(any(), any(), any())
+
+        // Act
+        game.throwCard(action)
+
+        // Assert
+        verify(playingTable, never()).defend(card)
+        verify(playerDefending, never()).removeCard(card)
+    }
+
+    @Test
+    fun defend_throws() {
+        // Assemble
+        val card = Card(SPADE, KING)
+        val action = ActionThrowInCard(
+                actionIssuer = playerDefending,
+                thrownCard = card
+        )
+        doReturn(true).whenever(turnsManager).isDefending(any())
+        doReturn(listOf(action)).whenever(defendingActionsFilter).filterActions(any(), any(), any())
+        doThrow(IllegalArgumentException()).whenever(playingTable).defend(any()) // incorrect action performed
+
+        // Act
+        game.throwCard(action)
+
+        // Assert
+        verify(playerDefending, never()).removeCard(card)
     }
 
 }

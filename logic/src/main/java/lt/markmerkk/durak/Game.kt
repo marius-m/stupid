@@ -36,10 +36,13 @@ class Game(
                     defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
             )
             if (availableActions.isNotEmpty()) {
-                val actionPlayer = player
-                playingTable.attack(actionThrowInCard.thrownCard)
-                actionPlayer.removeCard(actionThrowInCard.thrownCard)
-                logger.info("${actionPlayer.name} throws ${actionThrowInCard.thrownCard}\n")
+                try {
+                    playingTable.attack(actionThrowInCard.thrownCard)
+                    player.removeCard(actionThrowInCard.thrownCard)
+                    logger.info("${player.name} throws ${actionThrowInCard.thrownCard}\n")
+                } catch (e: IllegalArgumentException) {
+                    logger.warn("Cannot perform this operation when trying to attack", e)
+                }
             } else {
                 logger.info("${player.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
                 logger.info(printAvailablePlayerActions(player))
@@ -51,32 +54,19 @@ class Game(
                     playingTable = playingTable
             )
             if (availableActions.isNotEmpty()) {
-//                playingTable.defend(actionThrowInCard.thrownCard)
-                player.removeCard(actionThrowInCard.thrownCard)
-                logger.info("${player.name} throws ${actionThrowInCard.thrownCard}\n")
+                try {
+                    playingTable.defend(actionThrowInCard.thrownCard)
+                    player.removeCard(actionThrowInCard.thrownCard)
+                    logger.info("${player.name} throws ${actionThrowInCard.thrownCard}\n")
+                } catch (e: IllegalArgumentException) {
+                    logger.warn("Illegal action performed trying to defend", e)
+                }
             } else {
                 logger.info("${player.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
                 logger.info(printAvailablePlayerActions(player))
             }
         } else {
             TODO("Unsupported operation")
-        }
-    }
-
-    // todo: Missing tests
-    fun throwCard2(actionThrowInCard: ActionThrowInCard) {
-        val availableAttackerActions = attackingActionsFilter.availableActions(
-                actionGame = actionThrowInCard,
-                defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
-        )
-        if (!availableAttackerActions.contains(actionThrowInCard)) {
-            logger.info("${actionThrowInCard.actionIssuer.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
-            logger.info(printAvailablePlayerActions(actionThrowInCard.actionIssuer))
-        } else {
-            val actionPlayer = actionThrowInCard.actionIssuer
-            playingTable.attack(actionThrowInCard.thrownCard)
-            actionPlayer.removeCard(actionThrowInCard.thrownCard)
-            logger.info("${actionPlayer.name} throws ${actionThrowInCard.thrownCard}\n")
         }
     }
 
