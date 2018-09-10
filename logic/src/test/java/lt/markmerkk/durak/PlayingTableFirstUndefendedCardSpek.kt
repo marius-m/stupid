@@ -1,7 +1,8 @@
 package lt.markmerkk.durak
 
 import lt.markmerkk.durak.CardRank.*
-import lt.markmerkk.durak.CardSuite.*
+import lt.markmerkk.durak.CardSuite.DIAMOND
+import lt.markmerkk.durak.CardSuite.SPADE
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -9,75 +10,69 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
 object PlayingTableFirstUndefendedCardSpek: Spek({
+
+    val playingTable = PlayingTable(emptyList())
+
     given("filter properly") {
         on("empty table") {
-            val resultRanks = PlayingTable(
-                    cards = emptyList()
-            ).firstUndefendedCardOnTable()
+            playingTable.cards = emptyList()
 
+            val resultRanks = playingTable.firstUndefendedCardOnTable()
             it("no first undefended card") {
                 assertThat(resultRanks).isNull()
             }
         }
         on("only first undefended card") {
-            val resultRanks = PlayingTable(
-                    cards = listOf(
-                            PlayingCardPair(
-                                    attackingCard = Card(SPADE, TEN),
-                                    defendingCard = null
-                            )
-                    )
-            ).firstUndefendedCardOnTable()
+            playingTable.cards = listOf(PlayingCardPair(
+                    attackingCard = Card(SPADE, TEN),
+                    defendingCard = null
+            ))
+            val resultRanks = playingTable.firstUndefendedCardOnTable()
 
             it("valid selection") {
                 assertThat(resultRanks).isEqualTo(Card(SPADE, TEN))
             }
         }
         on("first defended pair") {
-            val resultRanks = PlayingTable(
-                    cards = listOf(
-                            PlayingCardPair(
-                                    attackingCard = Card(SPADE, TEN),
-                                    defendingCard = Card(SPADE, JACK)
-                            )
-                    )
-            ).firstUndefendedCardOnTable()
+            playingTable.cards = listOf(PlayingCardPair(
+                    attackingCard = Card(SPADE, TEN),
+                    defendingCard = Card(SPADE, JACK)
+            ))
+            val resultRanks = playingTable.firstUndefendedCardOnTable()
 
             it("no card selected") {
                 assertThat(resultRanks).isNull()
             }
         }
         on("multiple play cards, two undefended") {
-            val resultRanks = PlayingTable(
-                    cards = listOf(
-                            PlayingCardPair(
-                                    attackingCard = Card(SPADE, TEN),
-                                    defendingCard = null
-                            ),
-                            PlayingCardPair(
-                                    attackingCard = Card(DIAMOND, TEN),
-                                    defendingCard = null
-                            )
+            playingTable.cards = listOf(
+                    PlayingCardPair(
+                            attackingCard = Card(SPADE, TEN),
+                            defendingCard = null
+                    ),
+                    PlayingCardPair(
+                            attackingCard = Card(DIAMOND, TEN),
+                            defendingCard = null
                     )
-            ).firstUndefendedCardOnTable()
+            )
+            val resultRanks = playingTable.firstUndefendedCardOnTable()
 
             it("valid selection") {
                 assertThat(resultRanks).isEqualTo(Card(SPADE, TEN))
             }
         }
         on("multiple play cards, second undefended") {
-            val resultRanks = PlayingTable(
-                    cards = listOf(
-                            PlayingCardPair(
-                                    attackingCard = Card(SPADE, TEN),
-                                    defendingCard = Card(DIAMOND, QUEEN)
-                            ),
-                            PlayingCardPair(
-                                    attackingCard = Card(DIAMOND, TEN),
-                                    defendingCard = null
-                            )
+            playingTable.cards = listOf(
+                    PlayingCardPair(
+                            attackingCard = Card(SPADE, TEN),
+                            defendingCard = Card(DIAMOND, QUEEN)
+                    ),
+                    PlayingCardPair(
+                            attackingCard = Card(DIAMOND, TEN),
+                            defendingCard = null
                     )
-            ).firstUndefendedCardOnTable()
+            )
+            val resultRanks = playingTable.firstUndefendedCardOnTable()
 
             it("valid selection") {
                 assertThat(resultRanks).isEqualTo(Card(DIAMOND, TEN))

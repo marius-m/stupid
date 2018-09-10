@@ -38,6 +38,29 @@ class PlayingTable(
     }
 
     /**
+     * Place a defending [Card] on [PlayingTable]
+     * Defending card must be same [CardRank] and higher than the attacking card
+     * @throws IllegalArgumentException whenever there is nothing to defend against
+     * @throws IllegalArgumentException whenever card is not the same [CardRank] as undefended card
+     * @throws IllegalArgumentException whenever card is lower than the undefended card
+     */
+    @Throws(IllegalArgumentException::class)
+    fun defend(card: Card) {
+        val mutableCardPairs = cards.toMutableList()
+        val firstUndefendedCard = firstUndefendedCardOnTable()
+        if (firstUndefendedCard == null
+                || firstUndefendedCard) {
+            throw IllegalArgumentException("Nothing to defend against")
+        }
+        val firstUndefendedCardPairIndex = firstUndefendedCardPairIndex()
+        mutableCardPairs[firstUndefendedCardPairIndex] = PlayingCardPair(
+                attackingCard = firstUndefendedCard!!,
+                defendingCard = card
+        )
+        cards = mutableCardPairs.toList()
+    }
+
+    /**
      * Filters out all the ranks on the table
      */
     fun filterRanksOnTable(): Set<CardRank> {
@@ -60,6 +83,18 @@ class PlayingTable(
         return cards
                 .find { it.defendingCard == null }
                 ?.attackingCard
+    }
+
+    /**
+     * @return first undefended card pair index
+     * Will return -1 if no such pair found
+     */
+    fun firstUndefendedCardPairIndex(): Int {
+        cards.forEachIndexed { index, playingCardPair ->
+            if (playingCardPair.defendingCard == null)
+                return index
+        }
+        return -1
     }
 
     override fun toString(): String {

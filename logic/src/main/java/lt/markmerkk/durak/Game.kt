@@ -27,20 +27,39 @@ class Game(
     }
 
     fun throwCard(actionThrowInCard: ActionThrowInCard) {
-        val availableActions = attackingActionsFilter.filterActions(
-                attackingPlayer = actionThrowInCard.actionIssuer,
-                attackingPlayerCardsInHand = actionThrowInCard.actionIssuer.cardsInHand(),
-                playingTable = playingTable,
-                defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
-        )
-        if (availableActions.isNotEmpty()) {
-            val actionPlayer = actionThrowInCard.actionIssuer
-            playingTable.attack(actionThrowInCard.thrownCard)
-            actionPlayer.removeCard(actionThrowInCard.thrownCard)
-            logger.info("${actionPlayer.name} throws ${actionThrowInCard.thrownCard}\n")
+        val player = actionThrowInCard.actionIssuer
+        if (turnsManager.isAttacking(player)) {
+            val availableActions = attackingActionsFilter.filterActions(
+                    attackingPlayer = player,
+                    attackingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
+            )
+            if (availableActions.isNotEmpty()) {
+                val actionPlayer = player
+                playingTable.attack(actionThrowInCard.thrownCard)
+                actionPlayer.removeCard(actionThrowInCard.thrownCard)
+                logger.info("${actionPlayer.name} throws ${actionThrowInCard.thrownCard}\n")
+            } else {
+                logger.info("${player.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
+                logger.info(printAvailablePlayerActions(player))
+            }
+        } else if (turnsManager.isDefending(player)) {
+            val availableActions = defendingActionsFilter.filterActions(
+                    defendingPlayer = player,
+                    defendingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable
+            )
+            if (availableActions.isNotEmpty()) {
+//                playingTable.defend(actionThrowInCard.thrownCard)
+                player.removeCard(actionThrowInCard.thrownCard)
+                logger.info("${player.name} throws ${actionThrowInCard.thrownCard}\n")
+            } else {
+                logger.info("${player.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
+                logger.info(printAvailablePlayerActions(player))
+            }
         } else {
-            logger.info("${actionThrowInCard.actionIssuer.name} cannot throw in ${actionThrowInCard.thrownCard}!\n")
-            logger.info(printAvailablePlayerActions(actionThrowInCard.actionIssuer))
+            TODO("Unsupported operation")
         }
     }
 

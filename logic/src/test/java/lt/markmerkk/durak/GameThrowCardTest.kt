@@ -1,6 +1,7 @@
 package lt.markmerkk.durak
 
 import com.nhaarman.mockito_kotlin.*
+import junit.framework.Assert.fail
 import lt.markmerkk.durak.CardRank.*
 import lt.markmerkk.durak.CardSuite.*
 import lt.markmerkk.durak.actions.ActionGame
@@ -65,6 +66,7 @@ class GameThrowCardTest {
                 actionIssuer = playerAttacking,
                 thrownCard = card
         )
+        doReturn(true).whenever(turnsManager).isAttacking(any())
         doReturn(listOf(action)).whenever(attackingActionsFilter).filterActions(any(), any(), any(), any())
 
         // Act
@@ -83,6 +85,7 @@ class GameThrowCardTest {
                 actionIssuer = playerAttacking,
                 thrownCard = card
         )
+        doReturn(true).whenever(turnsManager).isAttacking(any())
         doReturn(emptyList<ActionGame>()).whenever(attackingActionsFilter).filterActions(any(), any(), any(), any()) // Action cannot be performed
 
         // Act
@@ -101,13 +104,15 @@ class GameThrowCardTest {
                 actionIssuer = playerDefending,
                 thrownCard = card
         )
+        doReturn(true).whenever(turnsManager).isDefending(any())
         doReturn(listOf(action)).whenever(defendingActionsFilter).filterActions(any(), any(), any())
 
         // Act
         game.throwCard(action)
 
         // Assert
-        verify(playingTable).attack(card)
+        fail("Incomplete test")
+//        verify(playingTable).attack(card)
         verify(playerAttacking).removeCard(card)
     }
 
