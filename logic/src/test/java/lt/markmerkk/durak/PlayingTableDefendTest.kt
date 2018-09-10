@@ -8,7 +8,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.MockitoAnnotations
 
-// todo: Incomplete imopl
 class PlayingTableDefendTest {
 
     lateinit var playingTable: PlayingTable
@@ -37,6 +36,23 @@ class PlayingTableDefendTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
+    fun lowerCard() {
+        // Assemble
+        playingTable.cards = listOf(
+                PlayingCardPair(
+                        attackingCard = Card(SPADE, TEN),
+                        defendingCard = null
+                )
+        )
+
+        // Act
+        playingTable.defend(Card(SPADE, NINE))
+
+        // Assert
+        fail("Lower card")
+    }
+
+    @Test(expected = IllegalArgumentException::class)
     fun differentSuite() {
         // Assemble
         playingTable.cards = listOf(
@@ -50,7 +66,58 @@ class PlayingTableDefendTest {
         playingTable.defend(Card(HEART, JACK))
 
         // Assert
-        fail("Incorrect rank")
+        fail("Incorrect suite")
+    }
+
+    @Test
+    fun differentSuite_trumpCard() {
+        // Assemble
+        playingTable.cards = listOf(
+                PlayingCardPair(
+                        attackingCard = Card(SPADE, TEN),
+                        defendingCard = null
+                )
+        )
+
+        // Act
+        playingTable.defend(Card(HEART, JACK, isTrump = true))
+
+        // Assert
+        assertThat(playingTable.cards.first().defendingCard).isEqualTo(Card(HEART, JACK, isTrump = true))
+    }
+
+    @Test
+    fun bothTrumps_higher() {
+        // Assemble
+        playingTable.cards = listOf(
+                PlayingCardPair(
+                        attackingCard = Card(SPADE, TEN, isTrump = true),
+                        defendingCard = null
+                )
+        )
+
+        // Act
+        playingTable.defend(Card(SPADE, JACK, isTrump = true))
+
+        // Assert
+        assertThat(playingTable.cards.first().defendingCard).isEqualTo(Card(SPADE, JACK, isTrump = true))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun bothTrumps_lower() {
+        // Assemble
+        playingTable.cards = listOf(
+                PlayingCardPair(
+                        attackingCard = Card(SPADE, TEN, isTrump = true),
+                        defendingCard = null
+                )
+        )
+
+        // Act
+        playingTable.defend(Card(SPADE, NINE, isTrump = true))
+
+        // Assert
+        fail("Card too low")
     }
 
     @Test(expected = IllegalArgumentException::class)

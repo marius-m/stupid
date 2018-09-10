@@ -47,14 +47,17 @@ class PlayingTable(
     @Throws(IllegalArgumentException::class)
     fun defend(card: Card) {
         val mutableCardPairs = cards.toMutableList()
-        val firstUndefendedCard = firstUndefendedCardOnTable()
-        if (firstUndefendedCard == null
-                || firstUndefendedCard) {
-            throw IllegalArgumentException("Nothing to defend against")
+        val firstUndefendedCard = firstUndefendedCardOnTable() ?: throw IllegalArgumentException("Nothing to defend against")
+        if (firstUndefendedCard.suite != card.suite
+                && !card.isTrump) {
+            throw IllegalArgumentException("Incorrect card being thrown")
+        }
+        if (firstUndefendedCard.weight() > card.weight()) {
+            throw IllegalArgumentException("Card too low")
         }
         val firstUndefendedCardPairIndex = firstUndefendedCardPairIndex()
         mutableCardPairs[firstUndefendedCardPairIndex] = PlayingCardPair(
-                attackingCard = firstUndefendedCard!!,
+                attackingCard = firstUndefendedCard,
                 defendingCard = card
         )
         cards = mutableCardPairs.toList()
