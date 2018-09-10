@@ -74,7 +74,7 @@ class GameTakeAllCardsTest {
         // Assert
         verify(playingTable).clearAllCards()
         verify(playerDefending).addCards(cardsOnTable)
-        verify(turnsManager).endRound()
+        verify(turnsManager, never()).endRound()
     }
 
     @Test
@@ -122,6 +122,5 @@ class GameTakeAllCardsTest {
         // Assert
         verify(playingTable, never()).clearAllCards()
         verify(playerDefending, never()).addCards(cardsOnTable)
-        verify(turnsManager, never()).endRound()
     }
 }
