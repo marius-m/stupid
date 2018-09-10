@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
-object PossibleDefendingActionsFilterSpek : Spek({
+object PossibleDefendingActionsFilterFilterDefendableCardsSpek : Spek({
     val possibleDefendingActionsFilter = PossibleDefendingActionsFilter()
 
     given("regular cards") {

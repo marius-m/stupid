@@ -17,18 +17,20 @@ class PossibleDefendingActionsFilter {
             defendingPlayerCardsInHand: List<Card>,
             playingTable: PlayingTable
     ): List<ActionGame> {
+        val availableActions = mutableListOf<ActionGame>()
         if (playingTable.cards.isEmpty()) {
             return emptyList()
         }
+        availableActions.add(ActionTakeAllCards(actionIssuer = defendingPlayer))
         val firstUndefendedCardOnTable = playingTable.firstUndefendedCardOnTable()
-        return if (firstUndefendedCardOnTable != null) {
-            filterDefendableCardsAgainst(
+        if (firstUndefendedCardOnTable != null) {
+            val defendableActions = filterDefendableCardsAgainst(
                     firstUndefendedCardOnTable,
                     defendingPlayerCardsInHand
             ).map { ActionThrowInCard(defendingPlayer, it) }
-        } else {
-            emptyList()
+            availableActions.addAll(defendableActions)
         }
+        return availableActions
     }
 
     /**

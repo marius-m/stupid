@@ -3,6 +3,7 @@ package lt.markmerkk.durak
 import lt.markmerkk.Mocks
 import lt.markmerkk.durak.CardRank.*
 import lt.markmerkk.durak.CardSuite.*
+import lt.markmerkk.durak.actions.ActionTakeAllCards
 import lt.markmerkk.durak.actions.ActionThrowInCard
 import lt.markmerkk.durak.actions.PossibleDefendingActionsFilter
 import org.assertj.core.api.Assertions.assertThat
@@ -11,7 +12,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
-object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
+object PossibleDefendingActionsFilterActionsSpek : Spek({
     val possibleDefendingActionsFilter = PossibleDefendingActionsFilter()
     val defendingPlayer = Player(name = "Marius")
 
@@ -54,9 +55,10 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
                             )
                     )
             )
+            val resultThrownActions = resultActions.filterIsInstance(ActionThrowInCard::class.java)
 
             it("multiple variations to defend") {
-                assertThat(resultActions).containsExactlyInAnyOrder(
+                assertThat(resultThrownActions).containsExactlyInAnyOrder(
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, ACE)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, KING)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, QUEEN)),
@@ -82,9 +84,10 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
                             )
                     )
             )
+            val resultThrownActions = resultActions.filterIsInstance(ActionThrowInCard::class.java)
 
             it("multiple variations to defend") {
-                assertThat(resultActions).containsExactlyInAnyOrder(
+                assertThat(resultThrownActions).containsExactlyInAnyOrder(
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, ACE)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, KING))
                 )
@@ -109,9 +112,10 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
                             )
                     )
             )
+            val resultThrownActions = resultActions.filterIsInstance(ActionThrowInCard::class.java)
 
             it("multiple variations to defend") {
-                assertThat(resultActions).containsExactlyInAnyOrder(
+                assertThat(resultThrownActions).containsExactlyInAnyOrder(
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, ACE)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, KING)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(DIAMOND, TWO, isTrump = true))
@@ -140,12 +144,81 @@ object PossibleDefendingActionsFilterDefendableCardsSpek : Spek({
                             )
                     )
             )
+            val resultThrownActions = resultActions.filterIsInstance(ActionThrowInCard::class.java)
 
             it("only first first undefended card can be thrown") {
-                assertThat(resultActions).containsExactlyInAnyOrder(
+                assertThat(resultThrownActions).containsExactlyInAnyOrder(
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, ACE)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(SPADE, KING)),
                         ActionThrowInCard(actionIssuer = defendingPlayer, thrownCard = Card(DIAMOND, TWO, isTrump = true))
+                )
+            }
+        }
+    }
+
+    given("logic is correct of taking all cards") {
+        on("no cards at the table") {
+            val resultActions = possibleDefendingActionsFilter.filterActions(
+                    defendingPlayer = defendingPlayer,
+                    defendingPlayerCardsInHand = Mocks.createCards(
+                            Card(SPADE, ACE),
+                            Card(SPADE, KING),
+                            Card(SPADE, JACK)
+                    ),
+                    playingTable = Mocks.createPlayingTable(
+                            cardsOnTable = emptyList()
+                    )
+            )
+            it("cannot take all the cards"){
+                assertThat(resultActions).doesNotContain(
+                        ActionTakeAllCards(actionIssuer = defendingPlayer)
+                )
+            }
+        }
+
+        on("undefended card on table") {
+            val resultActions = possibleDefendingActionsFilter.filterActions(
+                    defendingPlayer = defendingPlayer,
+                    defendingPlayerCardsInHand = Mocks.createCards(
+                            Card(SPADE, ACE),
+                            Card(SPADE, KING),
+                            Card(SPADE, JACK)
+                    ),
+                    playingTable = Mocks.createPlayingTable(
+                            cardsOnTable = listOf(
+                                    PlayingCardPair(
+                                            attackingCard = Card(SPADE, QUEEN),
+                                            defendingCard = null
+                                    )
+                            )
+                    )
+            )
+            it("can take all cards"){
+                assertThat(resultActions).contains(
+                        ActionTakeAllCards(actionIssuer = defendingPlayer)
+                )
+            }
+        }
+
+        on("all defended cards") {
+            val resultActions = possibleDefendingActionsFilter.filterActions(
+                    defendingPlayer = defendingPlayer,
+                    defendingPlayerCardsInHand = Mocks.createCards(
+                            Card(SPADE, ACE),
+                            Card(SPADE, JACK)
+                    ),
+                    playingTable = Mocks.createPlayingTable(
+                            cardsOnTable = listOf(
+                                    PlayingCardPair(
+                                            attackingCard = Card(SPADE, QUEEN),
+                                            defendingCard = Card(SPADE, KING)
+                                    )
+                            )
+                    )
+            )
+            it("can take all cards"){
+                assertThat(resultActions).contains(
+                        ActionTakeAllCards(actionIssuer = defendingPlayer)
                 )
             }
         }
