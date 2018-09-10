@@ -3,6 +3,7 @@ package lt.markmerkk.actions
 import lt.markmerkk.Consts
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.actions.ActionFinishRound
 import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.durak.actions.ActionTakeAllCards
 import lt.markmerkk.durak.actions.ActionThrowInCard
@@ -16,6 +17,7 @@ class ActionExecutorGame(
         return when (action) {
             is ActionThrowInCard -> game.throwCard(action)
             is ActionTakeAllCards -> game.takeAll(action)
+            is ActionFinishRound -> game.finishRound(action)
             else -> { logger.warn("Action cannot be defined") }
         }
     }

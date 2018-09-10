@@ -36,7 +36,8 @@ class Main {
                         ActionTranslatorQuit(players),
                         ActionTranslatorThrowCards(players),
                         ActionTranslatorHelp(players, game),
-                        ActionTranslatorTakeAll(players)
+                        ActionTranslatorTakeAll(players),
+                        ActionTranslatorFinishRound(players)
                 )
         )
         val cliCardDrawer = CliCardDrawer()

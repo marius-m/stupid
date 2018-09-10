@@ -1,9 +1,6 @@
 package lt.markmerkk.durak
 
-import lt.markmerkk.durak.actions.ActionTakeAllCards
-import lt.markmerkk.durak.actions.ActionThrowInCard
-import lt.markmerkk.durak.actions.PossibleAttackingActionsFilter
-import lt.markmerkk.durak.actions.PossibleDefendingActionsFilter
+import lt.markmerkk.durak.actions.*
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -25,6 +22,31 @@ class Game(
 
     fun refillPlayerCards() {
         players.forEach { it.refill(refillingDeck) }
+    }
+
+    fun finishRound(actionFinishRound: ActionFinishRound) {
+        val player = actionFinishRound.actionIssuer
+        if (!turnsManager.isAttacking(player)) {
+            logger.info("${player.name} cannot finish round!\n")
+            logger.info(printAvailablePlayerActions(player))
+            return
+        }
+        val availableActions = attackingActionsFilter.filterActions(
+                attackingPlayer = player,
+                attackingPlayerCardsInHand = player.cardsInHand(),
+                playingTable = playingTable,
+                defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
+        )
+        if (availableActions.contains(actionFinishRound)) {
+            playingTable.clearAllCards()
+            players.forEach { it.refill(refillingDeck) } // todo: incorrect, it should refill all players starting from finished player
+            turnsManager.endRound()
+            logger.info("${player.name} finished!\n")
+            logger.info("Round ended. ${turnsManager.attackingPlayer.name} is now attacking!\n")
+        } else {
+            logger.info("${player.name} cannot finish round!\n")
+            logger.info(printAvailablePlayerActions(player))
+        }
     }
 
     fun takeAll(actionTakeAllCards: ActionTakeAllCards) {
