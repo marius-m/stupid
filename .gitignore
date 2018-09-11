@@ -128,5 +128,8 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
 
+## Web
+web/build
+
 ## Project
 output.log
