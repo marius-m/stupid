@@ -13,9 +13,11 @@ export default class App extends Component {
   }
 
   render() {
-    console.log("Rendering jsx");
     return (
-      <div>Hello world from jsx</div>
+      <div>
+        <h1>Hello world</h1>
+        <h3>Varom pirkti valgyti</h3>
+      </div>
     );
   }
 }

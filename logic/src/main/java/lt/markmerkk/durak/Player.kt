@@ -5,6 +5,7 @@ package lt.markmerkk.durak
  */
 data class Player(
         val name: String,
+        val id: String = "",
         private var cardsInHand: List<Card> = emptyList()
 ) {
 
