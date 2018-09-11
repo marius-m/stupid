@@ -3,11 +3,11 @@ import React from 'react';
 import App from './app'
 import '../css/general.css';
 
-if (document.getElementById('code_submit') !=null)  {
+if (document.getElementById('game_terminal') != null)  {
   ReactDOM.render(
     <div>
       <App />
     </div>,
-    document.getElementById('code_submit')
+    document.getElementById('game_terminal')
   );
 }

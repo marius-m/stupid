@@ -130,6 +130,8 @@ Thumbs.db
 
 ## Web
 web/build
+web/node_modules
+web/src/main/webapp/dist
 
 ## Project
 output.log

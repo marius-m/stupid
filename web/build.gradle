@@ -4,6 +4,7 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: "kotlin-jpa"
 apply plugin: 'org.springframework.boot'
+apply plugin: "com.moowork.node"
 
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -19,3 +20,24 @@ bootRun {
 bootRepackage {
     mainClass = 'lt.markmerkk.jtrainer.JTrainerApplicationKt'
 }
+
+node {
+    version = '5.8.0'
+    npmVersion = '3.8.0'
+    download = true
+    // distBaseUrl = Custom artifactory location here.
+}
+
+task webpack(type: NodeTask, dependsOn: npmInstall) {
+    def osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("windows")) {
+        script = project.file('node_modules/webpack/bin/webpack.js')
+    } else {
+        script = project.file('node_modules/.bin/webpack')
+    }
+}
+
+processResources.dependsOn 'webpack'
+
+clean.delete << file('node_modules')
+clean.delete << file('src/main/webapp/dist')

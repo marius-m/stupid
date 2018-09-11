@@ -13,14 +13,9 @@ export default class App extends Component {
   }
 
   render() {
-    console.log("Rerendering state " + this.state.uuid);
-    if (this.state.uuid !== '' && this.state.source !== '') {
-      return(
-        <CodeResult uuid={this.state.uuid} source={this.state.source} />  
-      );
-    }
+    console.log("Rendering jsx");
     return (
-      <CodeSubmit doSearch={(uuid, source) => this.setState({ uuid: uuid, source: source })} />
+      <div>Hello world from jsx</div>
     );
   }
 }
