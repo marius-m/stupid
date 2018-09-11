@@ -18,7 +18,7 @@ bootRun {
 }
 
 bootRepackage {
-    mainClass = 'lt.markmerkk.jtrainer.JTrainerApplicationKt'
+    mainClass = 'lt.markmerkk.stupid.JTrainerApplicationKt'
 }
 
 node {

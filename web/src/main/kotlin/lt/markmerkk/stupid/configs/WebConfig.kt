@@ -1,4 +1,4 @@
-package lt.markmerkk.jtrainer.configs
+package lt.markmerkk.stupid.configs
 
 import org.springframework.context.annotation.Bean
 import org.springframework.web.servlet.ViewResolver

@@ -1,4 +1,4 @@
-package lt.markmerkk.jtrainer
+package lt.markmerkk.stupid
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

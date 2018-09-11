@@ -1,4 +1,4 @@
-package lt.markmerkk.jtrainer.components
+package lt.markmerkk.stupid.components
 
 import org.springframework.context.annotation.Configuration
 
