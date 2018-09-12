@@ -15,7 +15,12 @@ export default class PlayerDetails extends Component {
     fetch("http://localhost:8080/api/game/player/"+this.state.game_id+"/"+this.state.player_id, { method: 'GET' })
     .then((response) => response.json())
     .then((responseJson) => {
-        var player = new Player(responseJson.name, responseJson.cardDisplay, responseJson.cards)
+        var player = new Player(
+            responseJson.name,
+            responseJson.cardDisplayInline,
+            responseJson.cardDisplayAsList,
+            responseJson.cards
+        )
         this.setState({
             game_id: this.state.game_id,
             player_id: this.state.player_id, 
@@ -32,7 +37,7 @@ export default class PlayerDetails extends Component {
             <div>No player info</div>
         );
       } else {
-        var cardsAsDisplay = this.state.player.cards
+        const cardsFormatted = this.state.player.cards
             .map((card) => card.display)
             .join();
         return(
@@ -41,8 +46,11 @@ export default class PlayerDetails extends Component {
                 <ul>
                     <li>Game id: {this.state.game_id}</li>
                     <li>Player id: {this.state.player_id}</li>
-                    <li>Player: {this.state.player.name} / {cardsAsDisplay}</li>
+                    <li>Player: {this.state.player.name} / {cardsFormatted}</li>
                 </ul>
+                <div className="textWithBreaksDiv">
+                    {this.state.player.cardDisplayInline}
+                </div>
             </div>
         );
       }
@@ -58,9 +66,10 @@ class Card {
 }
 
 class Player {
-    constructor(name, cardDisplay, cards) {
+    constructor(name, cardDisplayInline, cardDisplayAsList, cards) {
         this.name = name;
-        this.cardDisplay = cardDisplay;
+        this.cardDisplayInline = cardDisplayInline;
+        this.cardDisplayAsList = cardDisplayAsList;
         this.cards = cards.map(card => new Card(card.suite, card.rank, card.display));
     }
 }

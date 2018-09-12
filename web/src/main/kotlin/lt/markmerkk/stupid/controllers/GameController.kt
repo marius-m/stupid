@@ -2,12 +2,10 @@ package lt.markmerkk.stupid.controllers
 
 import lt.markmerkk.CliCardDrawer
 import lt.markmerkk.durak.Player
-import lt.markmerkk.stupid.entities.responses.ViewModelAllGames
 import lt.markmerkk.stupid.entities.responses.ViewModelCard
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerStatus
 import lt.markmerkk.stupid.services.GameService
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.ModelAndView
 
 
 @RestController
@@ -33,7 +31,8 @@ class GameController(
         return ViewModelPlayerStatus(
                 name = player.name,
                 cards = player.cardsInHand().map { ViewModelCard.from(it) },
-                cardDisplay = cardDisplay.drawCards(player.cardsInHand())
+                cardDisplayInline = cardDisplay.drawCards(player.cardsInHand()),
+                cardDisplayAsList = player.cardsInHand().map { cardDisplay.drawCards(it) }
         )
     }
 

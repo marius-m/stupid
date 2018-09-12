@@ -58,7 +58,8 @@ data class ViewModelCard(
 data class ViewModelPlayerStatus(
         val name: String,
         val cards: List<ViewModelCard>,
-        val cardDisplay: String
+        val cardDisplayInline: String,
+        val cardDisplayAsList: List<String>
 )
 
 
