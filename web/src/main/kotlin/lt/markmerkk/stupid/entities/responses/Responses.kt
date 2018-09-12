@@ -3,6 +3,8 @@ package lt.markmerkk.stupid.entities.responses
 import lt.markmerkk.CliCardDrawer
 import lt.markmerkk.durak.Card
 import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.PlayingCardPair
+import lt.markmerkk.durak.PlayingTable
 import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.stupid.services.GameWebInstance
 
@@ -97,4 +99,25 @@ data class ViewModelPlayerActions(
 
 }
 
+data class ViewModelTable(
+        val attackingCards: List<ViewModelCard>,
+        val attackingCardsDisplayInline: String,
+        val defendingCards: List<ViewModelCard>,
+        val defendingCardsDisplayInline: String
+) {
+
+    companion object {
+        fun from(
+                attackingCards: List<Card>,
+                defendingCards: List<Card>,
+                cardDrawer: CliCardDrawer
+        ): ViewModelTable = ViewModelTable(
+                attackingCards = attackingCards.map { ViewModelCard.from(it) },
+                attackingCardsDisplayInline = cardDrawer.drawCards(attackingCards),
+                defendingCards = defendingCards.map { ViewModelCard.from(it) },
+                defendingCardsDisplayInline = cardDrawer.drawCards(defendingCards)
+        )
+    }
+
+}
 

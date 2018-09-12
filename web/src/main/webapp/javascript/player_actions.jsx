@@ -50,7 +50,7 @@ export default class PlayerActions extends Component {
   }
 }
 
-class Action {
+export class Action {
     constructor(description) {
         this.description = description;
     }

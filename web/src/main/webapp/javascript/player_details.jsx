@@ -57,7 +57,7 @@ export default class PlayerDetails extends Component {
   }
 }
 
-class Card {
+export class Card {
     constructor(suite, rank, display) {
         this.suite = suite;
         this.rank = rank;
@@ -65,7 +65,7 @@ class Card {
     }
 }
 
-class Player {
+export class Player {
     constructor(name, cardDisplayInline, cardDisplayAsList, cards) {
         this.name = name;
         this.cardDisplayInline = cardDisplayInline;

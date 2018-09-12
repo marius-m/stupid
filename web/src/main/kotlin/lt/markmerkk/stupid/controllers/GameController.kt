@@ -4,6 +4,7 @@ import lt.markmerkk.CliCardDrawer
 import lt.markmerkk.durak.Player
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerActions
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerStatus
+import lt.markmerkk.stupid.entities.responses.ViewModelTable
 import lt.markmerkk.stupid.services.GameService
 import org.springframework.web.bind.annotation.*
 
@@ -24,7 +25,7 @@ class GameController(
             @PathVariable("game_id") gameId: String,
             @PathVariable("player_id") playerId: String
     ): ViewModelPlayerStatus {
-        if (!isGameValid(gameId, playerId)) {
+        if (!isStateValid(gameId, playerId)) {
             throw IllegalArgumentException("Game or player does not exist")
         }
         val player: Player = gameService.gameMap[gameId]!!.playerById(playerId)!!
@@ -40,7 +41,7 @@ class GameController(
             @PathVariable("game_id") gameId: String,
             @PathVariable("player_id") playerId: String
     ): ViewModelPlayerActions {
-        if (!isGameValid(gameId, playerId)) {
+        if (!isStateValid(gameId, playerId)) {
             throw IllegalArgumentException("Game or player does not exist")
         }
         val game = gameService.gameMap[gameId]!!.game
@@ -48,20 +49,39 @@ class GameController(
         return ViewModelPlayerActions.from(game.availablePlayerActions(player))
     }
 
+    @RequestMapping(
+            value = arrayOf("/api/game/table/{game_id}"),
+            method = arrayOf(RequestMethod.GET)
+    )
+    @ResponseBody
+    fun tableStatus(
+            @PathVariable("game_id") gameId: String
+    ): ViewModelTable {
+        if (!isGameValid(gameId)) {
+            throw IllegalArgumentException("Game does not exist")
+        }
+        val game = gameService.gameMap[gameId]!!.game
+        return ViewModelTable.from(
+                attackingCards = game.playingTable.allAttackingCards(),
+                defendingCards = game.playingTable.allDefendingCards(),
+                cardDrawer = cardDrawer
+        )
+    }
+
     //region Convenience
 
     private fun isGameValid(
+            gameId: String
+    ): Boolean {
+        return gameService.gameMap.containsKey(gameId)
+    }
+
+    private fun isStateValid(
             gameId: String,
             playerId: String
     ): Boolean {
-        if (!gameService.gameMap.containsKey(gameId)) {
-            return false
-        }
-        val game = gameService.gameMap[gameId]!!
-        if (!game.isPlayerIdValid(playerId)) {
-            return false
-        }
-        return true
+        return gameService.gameMap.containsKey(gameId)
+                && gameService.gameMap[gameId]!!.isPlayerIdValid(playerId)
     }
 
     //endregion
