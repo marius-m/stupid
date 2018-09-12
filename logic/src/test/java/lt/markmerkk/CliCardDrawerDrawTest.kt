@@ -6,7 +6,6 @@ import lt.markmerkk.durak.CardRank.ACE
 import lt.markmerkk.durak.CardSuite.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.mockito.MockitoAnnotations
 

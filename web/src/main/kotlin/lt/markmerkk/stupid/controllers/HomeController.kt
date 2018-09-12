@@ -1,6 +1,7 @@
 package lt.markmerkk.stupid.controllers
 
 import lt.markmerkk.stupid.entities.responses.ViewModelAllGames
+import lt.markmerkk.stupid.entities.responses.ViewModelGameDetails
 import lt.markmerkk.stupid.services.GameService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PathVariable
@@ -32,7 +33,7 @@ class HomeController(
     fun gameDetails(
             @PathVariable("game_id") gameId: String,
             @PathVariable("player_id") playerId: String
-    ): String {
+    ): ModelAndView {
         if (!gameService.gameMap.containsKey(gameId)) {
             throw IllegalStateException("No such game!")
         }
@@ -40,7 +41,9 @@ class HomeController(
         if (!game.isPlayerIdValid(playerId)) {
             throw IllegalStateException("No such player")
         }
-        return "game"
+        val data = ModelAndView("game")
+        data.addObject("gameData", ViewModelGameDetails(gameId, playerId))
+        return data
     }
 
 }

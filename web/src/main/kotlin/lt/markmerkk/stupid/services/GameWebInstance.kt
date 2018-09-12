@@ -9,7 +9,7 @@ data class GameWebInstance(
         val id: String,
         val players: List<Player>
 ) {
-    private val game: Game
+    val game: Game
 
     init {
         val turnsManager = TurnsManager(players = players)
@@ -21,6 +21,8 @@ data class GameWebInstance(
         game.resetGame()
         game.refillPlayerCards()
     }
+
+    fun playerById(playerId: String): Player? = players.find { it.id == playerId }
 
     /**
      * Checks if player exist
