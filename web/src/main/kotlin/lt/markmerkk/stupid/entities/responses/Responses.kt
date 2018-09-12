@@ -1,6 +1,7 @@
 package lt.markmerkk.stupid.entities.responses
 
 import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.PlayingCardPair
 import lt.markmerkk.stupid.services.GameWebInstance
 
 data class ViewModelAllGames(
@@ -32,6 +33,10 @@ data class ViewModelAllGames(
 data class ViewModelPlayer(
         val id: String,
         val name: String
+)
+
+data class ViewModelPlayingTable(
+        val playingCardPair: List<PlayingCardPair>
 )
 
 

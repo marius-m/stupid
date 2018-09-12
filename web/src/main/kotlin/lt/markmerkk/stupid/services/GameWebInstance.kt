@@ -22,4 +22,13 @@ data class GameWebInstance(
         game.refillPlayerCards()
     }
 
+    /**
+     * Checks if player exist
+     */
+    fun isPlayerIdValid(playerId: String): Boolean {
+        return players
+                .filter { it.id == playerId }
+                .count() > 0
+    }
+
 }

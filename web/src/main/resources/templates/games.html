@@ -15,7 +15,10 @@
             <small>2 players</small>
         </div>
         <div th:each="player : ${gameInstance.players}">
-            <button type="button" class="btn btn-primary" th:text="'Join as ' + ${player.name}"></button>
+            <a class="btn btn-primary btn-lg" role="button" aria-pressed="true"
+               th:href="'/game/'+${gameInstance.id}+'/'+${player.id}"
+               th:text="'Join as ' + ${player.name}">
+            </a>
         </div>
     </a>
 </div>
@@ -23,5 +26,4 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/jquery-3.2.1.slim.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/dist/bundle.js}"></script>
 </html>
