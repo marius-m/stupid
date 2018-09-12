@@ -24,6 +24,23 @@ class Game(
         players.forEach { it.refill(refillingDeck) }
     }
 
+    fun availablePlayerActions(player: Player): List<ActionGame> {
+        return when {
+            turnsManager.isAttacking(player) -> attackingActionsFilter.filterActions(
+                    attackingPlayer = player,
+                    attackingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable,
+                    defensivePlayerCardSizeInHand = turnsManager.defendingPlayer.cardsInHandSize()
+            )
+            turnsManager.isDefending(player) -> defendingActionsFilter.filterActions(
+                    defendingPlayer = player,
+                    defendingPlayerCardsInHand = player.cardsInHand(),
+                    playingTable = playingTable
+            )
+            else -> emptyList()
+        }
+    }
+
     fun finishRound(actionFinishRound: ActionFinishRound) {
         val player = actionFinishRound.actionIssuer
         if (!turnsManager.isAttacking(player)) {

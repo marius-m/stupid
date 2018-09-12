@@ -1,6 +1,9 @@
 package lt.markmerkk.stupid.entities.responses
 
+import lt.markmerkk.CliCardDrawer
 import lt.markmerkk.durak.Card
+import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.actions.ActionGame
 import lt.markmerkk.stupid.services.GameWebInstance
 
 data class ViewModelAllGames(
@@ -60,6 +63,38 @@ data class ViewModelPlayerStatus(
         val cards: List<ViewModelCard>,
         val cardDisplayInline: String,
         val cardDisplayAsList: List<String>
-)
+) {
+    companion object {
+        fun from(
+                player: Player,
+                cardDrawer: CliCardDrawer
+        ): ViewModelPlayerStatus = ViewModelPlayerStatus(
+                name = player.name,
+                cardDisplayInline = cardDrawer.drawCards(player.cardsInHand()),
+                cardDisplayAsList = player.cardsInHand().map { cardDrawer.drawCards(it) },
+                cards = player.cardsInHand().map { ViewModelCard.from(it) }
+        )
+    }
+}
+
+data class ViewModelPlayerActions(
+        val actions: List<ViewModelPlayerAction>
+) {
+
+    data class ViewModelPlayerAction(
+            val description: String
+    )
+
+    companion object {
+        fun from(availableAction: List<ActionGame>): ViewModelPlayerActions = ViewModelPlayerActions(
+                actions = availableAction.map {
+                    ViewModelPlayerAction(
+                            description = it.actionUseDescription
+                    )
+                }
+        )
+    }
+
+}
 
 

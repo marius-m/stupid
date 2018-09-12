@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PlayerDetails from "player_details";
+import PlayerActions from "player_actions";
 
 export default class App extends Component {
   // Props: 
@@ -22,7 +23,9 @@ export default class App extends Component {
     }
     return (
       <div>
+        <h1>Game status</h1>
         <PlayerDetails game_id={this.state.game_id} player_id={this.state.player_id} />
+        <PlayerActions game_id={this.state.game_id} player_id={this.state.player_id} />
       </div>
     );
   }
