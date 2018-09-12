@@ -5,8 +5,9 @@ import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.TurnsManager
 
-class GameWebInstance(
-        players: List<Player>
+data class GameWebInstance(
+        val id: String,
+        val players: List<Player>
 ) {
     private val game: Game
 

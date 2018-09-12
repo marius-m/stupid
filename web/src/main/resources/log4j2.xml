@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="log4j.logger.org.thymeleaf" level="INFO"/>
+        <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.CONFIG" level="INFO"/>
+        <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.TIMER" level="INFO"/>
+        <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE" level="INFO"/>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
