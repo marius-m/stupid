@@ -8,13 +8,20 @@
 </head>
 <body>
 <h2>Games</h2>
-<ul class="list-group" th:each="game : ${games}">
-    <li class="list-group-item" th:text="${game.index} + '. ' + ${game.id}">
-
-    </li>
-</ul>
+<div class="list-group" th:each="gameInstance : ${gameData.games}">
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-200 justify-content-between">
+            <h5 class="mb-2" th:text="${gameInstance.id}"></h5>
+            <small>2 players</small>
+        </div>
+        <div th:each="player : ${gameInstance.players}">
+            <button type="button" class="btn btn-primary" th:text="'Join as ' + ${player.name}"></button>
+        </div>
+    </a>
+</div>
 </body>
-<script th:src="@{/js/jquery-3.2.0.min.js}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/dist/bundle.js}"></script>
 </html>

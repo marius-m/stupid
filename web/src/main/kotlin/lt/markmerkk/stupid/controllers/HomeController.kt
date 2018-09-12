@@ -20,7 +20,7 @@ class HomeController(
     fun index(): ModelAndView {
         val gameData = ViewModelAllGames.from(gameService.games())
         val data = ModelAndView("games")
-        data.addObject("games", gameData.games)
+        data.addObject("gameData", gameData)
         return data
     }
 
