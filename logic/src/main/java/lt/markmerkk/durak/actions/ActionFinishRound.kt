@@ -8,5 +8,6 @@ import lt.markmerkk.durak.Player
 data class ActionFinishRound(
         override val actionIssuer: Player
 ) : ActionGame {
-    override val actionUseDescription: String = "${actionIssuer.name} finish round"
+    override val actionTrigger: String = "${actionIssuer.name} finish round"
+    override val actionUseDescription: String = "Finish round"
 }

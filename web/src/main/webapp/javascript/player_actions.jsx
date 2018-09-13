@@ -51,7 +51,8 @@ export default class PlayerActions extends Component {
 }
 
 export class Action {
-    constructor(description) {
+    constructor(description, trigger) {
         this.description = description;
+        this.trigger = trigger;
     }
 }

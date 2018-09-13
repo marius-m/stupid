@@ -84,14 +84,16 @@ data class ViewModelPlayerActions(
 ) {
 
     data class ViewModelPlayerAction(
-            val description: String
+            val description: String,
+            val trigger: String
     )
 
     companion object {
         fun from(availableAction: List<ActionGame>): ViewModelPlayerActions = ViewModelPlayerActions(
                 actions = availableAction.map {
                     ViewModelPlayerAction(
-                            description = it.actionUseDescription
+                            description = it.actionUseDescription,
+                            trigger = it.actionTrigger
                     )
                 }
         )

@@ -160,7 +160,7 @@ class Game(
             return "${player.name} cannot perform any actions at this moment!\n"
         }
         val availableActionDescriptions = availableActions
-                .map { it.actionUseDescription }
+                .map { it.actionTrigger }
                 .joinToString(separator = ",\n\t", prefix = "\t")
         return "${player.name} can do these actions:\n$availableActionDescriptions\n"
     }
