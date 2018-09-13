@@ -12,7 +12,7 @@ export default class PlayerActions extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/api/game/actions/"+this.state.game_id+"/"+this.state.player_id, { method: 'GET' })
+    fetch("/api/game/actions/"+this.state.game_id+"/"+this.state.player_id, { method: 'GET' })
     .then((response) => response.json())
     .then((responseJson) => {
         const actions = responseJson.actions

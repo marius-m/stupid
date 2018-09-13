@@ -13,7 +13,7 @@ export default class GameTable extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/api/game/table/"+this.state.game_id, { method: 'GET' })
+    fetch("/api/game/table/"+this.state.game_id, { method: 'GET' })
     .then((response) => response.json())
     .then((responseJson) => {
         const attackingCardsAsCards = responseJson.attackingCards.map((card) => new Card(card.suite, card.rank, card.display));

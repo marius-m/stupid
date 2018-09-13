@@ -12,7 +12,7 @@ export default class PlayerDetails extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/api/game/player/"+this.state.game_id+"/"+this.state.player_id, { method: 'GET' })
+    fetch("/api/game/player/"+this.state.game_id+"/"+this.state.player_id, { method: 'GET' })
     .then((response) => response.json())
     .then((responseJson) => {
         var player = new Player(
