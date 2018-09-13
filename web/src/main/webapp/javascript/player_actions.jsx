@@ -9,6 +9,7 @@ export default class PlayerActions extends Component {
       player_id: this.props.player_id, 
       actions: []
     };
+    this.handleAction = this.handleAction.bind(this);
   }
 
   componentDidMount() {
@@ -16,7 +17,7 @@ export default class PlayerActions extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
         const actions = responseJson.actions
-            .map((action) => new Action(action.description));
+            .map((action) => new Action(action.description, action.trigger));
         this.setState({
             game_id: this.state.game_id,
             player_id: this.state.player_id, 
@@ -25,6 +26,27 @@ export default class PlayerActions extends Component {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  handleAction(e, action) {
+    e.preventDefault();
+    console.log("Triggering action " + action.trigger);
+    const actionRequest = new RequestAction(action.trigger);
+    fetch(
+        "/api/triggerAction/player/"+this.state.game_id+"/"+this.state.player_id,
+        {
+            method: 'POST' , 
+            body: JSON.stringify(actionRequest), 
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'                  
+            },
+        })
+        .then((response) => {
+            console.log("Response: " + response.status)
+        }).catch((error) => {
+            console.error(error);
+        });
   }
 
   render() {
@@ -36,7 +58,7 @@ export default class PlayerActions extends Component {
         const actionsAsJsx = this.state.actions
             .map((action) => 
                 <a className="btn btn-primary btn-lg" role="button"
-                    href="#">{action.description}</a>
+                    onClick={(e) => this.handleAction(e, action)}>{action.description}</a>
             );
         return(
             <div>
@@ -54,5 +76,11 @@ export class Action {
     constructor(description, trigger) {
         this.description = description;
         this.trigger = trigger;
+    }
+}
+
+class RequestAction {
+    constructor(actionAsString) {
+        this.actionAsString = actionAsString;
     }
 }

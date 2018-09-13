@@ -1,11 +1,16 @@
 package lt.markmerkk.stupid.controllers
 
 import lt.markmerkk.CliCardDrawer
+import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
+import lt.markmerkk.stupid.entities.RequestAction
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerActions
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerStatus
 import lt.markmerkk.stupid.entities.responses.ViewModelTable
 import lt.markmerkk.stupid.services.GameService
+import lt.markmerkk.stupid.services.GameWebInstance
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -66,6 +71,24 @@ class GameController(
                 defendingCards = game.playingTable.allDefendingCards(),
                 cardDrawer = cardDrawer
         )
+    }
+
+    @RequestMapping(
+            value = arrayOf("/api/triggerAction/player/{game_id}/{player_id}"),
+            method = arrayOf(RequestMethod.POST)
+    )
+    @ResponseStatus
+    fun postAction(
+            @PathVariable("game_id") gameId: String,
+            @PathVariable("player_id") playerId: String,
+            @RequestBody action: RequestAction
+    ): ResponseEntity<String> {
+        if (!isStateValid(gameId, playerId)) {
+            throw IllegalArgumentException("Game or player does not exist")
+        }
+        val gameWebInstance: GameWebInstance = gameService.gameMap[gameId]!!
+        gameWebInstance.handleAction(action.actionAsString)
+        return ResponseEntity.status(HttpStatus.OK).build()
     }
 
     //region Convenience
