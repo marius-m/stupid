@@ -1,10 +1,8 @@
-package lt.markmerkk.actions
+package lt.markmerkk.durak.actions
 
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.Card
 import lt.markmerkk.durak.Player
-import lt.markmerkk.durak.actions.Action
-import lt.markmerkk.durak.actions.ActionThrowInCard
 import java.util.regex.Pattern
 
 /**

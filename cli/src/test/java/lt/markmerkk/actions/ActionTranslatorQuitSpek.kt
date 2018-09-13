@@ -1,8 +1,8 @@
 package lt.markmerkk.durak
 
 import lt.markmerkk.actions.ActionTranslatorQuit
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.actions.system.ActionSystemQuit
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given

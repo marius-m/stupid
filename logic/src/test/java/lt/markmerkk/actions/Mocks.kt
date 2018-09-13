@@ -1,8 +1,8 @@
 package lt.markmerkk.actions
 
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
-import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.actions.Action
+import lt.markmerkk.durak.actions.ActionTranslator
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 
 class FakeTranslatorNoAction() : ActionTranslator {
     override fun translateAction(actionAsString: String): Action {

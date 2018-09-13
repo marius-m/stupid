@@ -1,8 +1,8 @@
-package lt.markmerkk.durak
+package lt.markmerkk.actions
 
-import lt.markmerkk.actions.ActionTranslatorTakeAll
-import lt.markmerkk.actions.ActionTranslatorThrowCards
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.actions.ActionTranslatorTakeAll
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.actions.ActionTakeAllCards
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek

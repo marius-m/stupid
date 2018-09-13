@@ -1,10 +1,11 @@
 package lt.markmerkk.actions
 
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.actions.system.ActionSystemHelp
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
 import lt.markmerkk.durak.actions.Action
+import lt.markmerkk.durak.actions.ActionTranslator
 import java.util.regex.Pattern
 
 /**

@@ -2,8 +2,8 @@ package lt.markmerkk.actions
 
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.whenever
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.actions.system.ActionSystemHelp
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
 import org.assertj.core.api.Assertions.assertThat

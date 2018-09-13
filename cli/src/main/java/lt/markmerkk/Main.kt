@@ -1,9 +1,13 @@
 package lt.markmerkk
 
-import lt.markmerkk.actions.*
-import lt.markmerkk.durak.actions.ActionGame
+import lt.markmerkk.actions.ActionExecutorSystem
+import lt.markmerkk.actions.ActionTranslatorHelp
+import lt.markmerkk.actions.ActionTranslatorQuit
 import lt.markmerkk.actions.system.ActionSystem
 import lt.markmerkk.durak.*
+import lt.markmerkk.durak.actions.*
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.actions.system.ActionIllegalMultipleActions
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.Scanner
@@ -46,6 +50,8 @@ class Main {
             val inputAction = cliInputHandler.handleInput(inputReader.nextLine())
             logger.divider()
             when (inputAction) {
+                is ActionIllegalMultipleActions -> logger.info("Illegal action!")
+                is ActionIllegalCannotTranslate -> logger.info("Illegal action!")
                 is ActionGame -> actionExecutorGame.execute(inputAction)
                 is ActionSystem -> actionExecutorSystem.execute(inputAction)
                 else -> logger.warn("Action cannot be executed\n")

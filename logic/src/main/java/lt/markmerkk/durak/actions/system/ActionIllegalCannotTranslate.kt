@@ -1,4 +1,6 @@
-package lt.markmerkk.actions.system
+package lt.markmerkk.durak.actions.system
+
+import lt.markmerkk.durak.actions.Action
 
 /**
  * When action cannot be executed
@@ -6,4 +8,4 @@ package lt.markmerkk.actions.system
 data class ActionIllegalCannotTranslate(
         private val inputAsString: String = "",
         private val detailDescription: String = ""
-) : ActionSystem
+) : Action

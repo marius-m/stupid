@@ -1,11 +1,9 @@
-package lt.markmerkk.durak
+package lt.markmerkk.actions
 
-import lt.markmerkk.actions.CliInputHandler
-import lt.markmerkk.actions.FakeAction1
-import lt.markmerkk.actions.FakeAction2
-import lt.markmerkk.actions.FakeTranslatorValid
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
-import lt.markmerkk.actions.system.ActionIllegalMultipleActions
+import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.actions.CliInputHandler
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.actions.system.ActionIllegalMultipleActions
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given

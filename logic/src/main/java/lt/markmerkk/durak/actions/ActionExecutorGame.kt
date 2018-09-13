@@ -1,12 +1,8 @@
-package lt.markmerkk.actions
+package lt.markmerkk.durak.actions
 
-import lt.markmerkk.Consts
+import lt.markmerkk.durak.Consts
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
-import lt.markmerkk.durak.actions.ActionFinishRound
-import lt.markmerkk.durak.actions.ActionGame
-import lt.markmerkk.durak.actions.ActionTakeAllCards
-import lt.markmerkk.durak.actions.ActionThrowInCard
 import org.slf4j.LoggerFactory
 
 class ActionExecutorGame(

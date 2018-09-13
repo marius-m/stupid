@@ -1,8 +1,7 @@
-package lt.markmerkk.actions
+package lt.markmerkk.durak.actions
 
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
-import lt.markmerkk.actions.system.ActionIllegalMultipleActions
-import lt.markmerkk.durak.actions.Action
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.actions.system.ActionIllegalMultipleActions
 
 class CliInputHandler(
         private val actionTranslators: List<ActionTranslator>

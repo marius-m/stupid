@@ -1,4 +1,4 @@
-package lt.markmerkk.actions.system
+package lt.markmerkk.durak.actions.system
 
 import lt.markmerkk.durak.actions.Action
 
@@ -10,4 +10,4 @@ data class ActionIllegalMultipleActions(
         private val inputString: String = "",
         private val detailDescription: String = "",
         private val translatedActions: List<Action> = emptyList()
-) : ActionSystem
+) : Action

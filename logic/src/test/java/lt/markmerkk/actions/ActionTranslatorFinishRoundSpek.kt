@@ -1,7 +1,8 @@
-package lt.markmerkk.durak
+package lt.markmerkk.actions
 
-import lt.markmerkk.actions.ActionTranslatorFinishRound
-import lt.markmerkk.actions.system.ActionIllegalCannotTranslate
+import lt.markmerkk.durak.Player
+import lt.markmerkk.durak.actions.ActionTranslatorFinishRound
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import lt.markmerkk.durak.actions.ActionFinishRound
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek

@@ -1,6 +1,4 @@
-package lt.markmerkk.actions
-
-import lt.markmerkk.durak.actions.Action
+package lt.markmerkk.durak.actions
 
 interface ActionTranslator {
     fun translateAction(

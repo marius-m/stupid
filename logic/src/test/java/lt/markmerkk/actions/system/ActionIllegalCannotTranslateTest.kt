@@ -1,5 +1,8 @@
 package lt.markmerkk.actions.system
 
+import lt.markmerkk.Mocks
+import lt.markmerkk.durak.actions.ActionTakeAllCards
+import lt.markmerkk.durak.actions.system.ActionIllegalCannotTranslate
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -29,7 +32,7 @@ object ActionIllegalCannotTranslateTest: Spek({
 
         on("different actions") {
             val action1 = ActionIllegalCannotTranslate(inputAsString = "input1")
-            val action2 = ActionSystemQuit()
+            val action2 = ActionTakeAllCards(actionIssuer = Mocks.createPlayer())
             val resultEquality = action1.equals(action2)
             it("should not be equal") {
                 assertThat(resultEquality).isFalse()
