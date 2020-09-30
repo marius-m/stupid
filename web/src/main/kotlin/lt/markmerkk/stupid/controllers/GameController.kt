@@ -4,17 +4,19 @@ import lt.markmerkk.CliCardDrawer
 import lt.markmerkk.durak.Game
 import lt.markmerkk.durak.Player
 import lt.markmerkk.stupid.entities.RequestAction
+import lt.markmerkk.stupid.entities.responses.ViewModelAllGames
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerActions
 import lt.markmerkk.stupid.entities.responses.ViewModelPlayerStatus
 import lt.markmerkk.stupid.entities.responses.ViewModelTable
 import lt.markmerkk.stupid.services.GameService
 import lt.markmerkk.stupid.services.GameWebInstance
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
-@RestController
+@RestController("/api")
 class GameController(
         private val gameService: GameService
 ) {
@@ -22,8 +24,19 @@ class GameController(
     private val cardDrawer: CliCardDrawer = CliCardDrawer()
 
     @RequestMapping(
-            value = arrayOf("/api/game/player/{game_id}/{player_id}"),
-            method = arrayOf(RequestMethod.GET)
+            value = arrayOf("/games"),
+            method = arrayOf(RequestMethod.GET),
+            produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE)
+    )
+    @ResponseBody
+    fun games(): ViewModelAllGames {
+        return ViewModelAllGames.from(gameService.games())
+    }
+
+    @RequestMapping(
+            value = arrayOf("/game/player/{game_id}/{player_id}"),
+            method = arrayOf(RequestMethod.GET),
+            produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE)
     )
     @ResponseBody
     fun playerStatus(
@@ -38,8 +51,9 @@ class GameController(
     }
 
     @RequestMapping(
-            value = arrayOf("/api/game/actions/{game_id}/{player_id}"),
-            method = arrayOf(RequestMethod.GET)
+            value = arrayOf("/game/actions/{game_id}/{player_id}"),
+            method = arrayOf(RequestMethod.GET),
+            produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE)
     )
     @ResponseBody
     fun playerActions(
@@ -55,8 +69,9 @@ class GameController(
     }
 
     @RequestMapping(
-            value = arrayOf("/api/game/table/{game_id}"),
-            method = arrayOf(RequestMethod.GET)
+            value = arrayOf("/game/table/{game_id}"),
+            method = arrayOf(RequestMethod.GET),
+            produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE)
     )
     @ResponseBody
     fun tableStatus(
@@ -74,8 +89,10 @@ class GameController(
     }
 
     @RequestMapping(
-            value = arrayOf("/api/triggerAction/player/{game_id}/{player_id}"),
-            method = arrayOf(RequestMethod.POST)
+            value = arrayOf("/triggerAction/player/{game_id}/{player_id}"),
+            method = arrayOf(RequestMethod.POST),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE),
+            produces = arrayOf(MediaType.APPLICATION_JSON_UTF8_VALUE)
     )
     @ResponseStatus
     fun postAction(
