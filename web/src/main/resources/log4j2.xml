@@ -10,7 +10,7 @@
         <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.CONFIG" level="INFO"/>
         <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.TIMER" level="INFO"/>
         <Logger name="log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE" level="INFO"/>
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
